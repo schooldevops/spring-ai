@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: spring-ai-postgres
+    environment:
+      POSTGRES_USER: springai
+      POSTGRES_PASSWORD: springai123
+      POSTGRES_DB: vectordb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U springai"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - spring-ai-network
+
+volumes:
+  postgres_data:
+
+networks:
+  spring-ai-network:
+    driver: bridge

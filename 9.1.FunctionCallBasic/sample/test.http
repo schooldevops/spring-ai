@@ -1,0 +1,107 @@
+### Function Calling API 테스트
+
+### 1. 상태 확인
+GET http://localhost:8080/api/function-call/test
+
+###
+
+### 2. 계산기 함수 테스트 - 덧셈
+POST http://localhost:8080/api/function-call/calculator
+Content-Type: application/json
+
+{
+  "message": "10과 5를 더해줘"
+}
+
+###
+
+### 3. 계산기 함수 테스트 - 뺄셈
+POST http://localhost:8080/api/function-call/calculator
+Content-Type: application/json
+
+{
+  "message": "20에서 7을 빼줘"
+}
+
+###
+
+### 4. 계산기 함수 테스트 - 곱셈
+POST http://localhost:8080/api/function-call/calculator
+Content-Type: application/json
+
+{
+  "message": "6과 8을 곱해줘"
+}
+
+###
+
+### 5. 계산기 함수 테스트 - 나눗셈
+POST http://localhost:8080/api/function-call/calculator
+Content-Type: application/json
+
+{
+  "message": "15를 3으로 나눠줘"
+}
+
+###
+
+### 6. 시간 조회 함수 테스트 - 기본
+POST http://localhost:8080/api/function-call/time
+Content-Type: application/json
+
+{
+  "message": "현재 시간 알려줘"
+}
+
+###
+
+### 7. 시간 조회 함수 테스트 - 특정 시간대
+POST http://localhost:8080/api/function-call/time
+Content-Type: application/json
+
+{
+  "message": "서울 시간으로 현재 시간 알려줘"
+}
+
+###
+
+### 8. 스마트 호출 - 계산
+POST http://localhost:8080/api/function-call/smart
+Content-Type: application/json
+
+{
+  "message": "10 더하기 5는?"
+}
+
+###
+
+### 9. 스마트 호출 - 시간 조회
+POST http://localhost:8080/api/function-call/smart
+Content-Type: application/json
+
+{
+  "message": "현재 시간은?"
+}
+
+###
+
+### 10. 스마트 호출 - 복합 요청
+POST http://localhost:8080/api/function-call/smart
+Content-Type: application/json
+
+{
+  "message": "10과 5를 더하고 현재 시간도 알려줘"
+}
+
+###
+
+### 11. 일반 호출 (비교용) - 함수 없이
+POST http://localhost:8080/api/function-call/normal
+Content-Type: application/json
+
+{
+  "message": "10과 5를 더해줘"
+}
+
+###
+

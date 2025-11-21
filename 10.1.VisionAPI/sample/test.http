@@ -1,0 +1,67 @@
+### Vision API 테스트
+
+### 1. 상태 확인
+GET http://localhost:9000/api/vision/test
+
+###
+
+### 2. 이미지 분석 - 기본
+POST http://localhost:9000/api/vision/analyze
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="test-image.jpg"
+Content-Type: image/jpeg
+
+< ./test-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="question"
+
+이 이미지를 자세히 설명해주세요.
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### 3. 이미지 설명 생성
+POST http://localhost:9000/api/vision/describe
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="test-image.jpg"
+Content-Type: image/jpeg
+
+< ./test-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### 4. 이미지에 대한 질문
+POST http://localhost:9000/api/vision/ask
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="test-image.jpg"
+Content-Type: image/jpeg
+
+< ./test-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="question"
+
+이 이미지에 있는 주요 객체는 무엇인가요?
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### 5. 이미지 상세 분석
+POST http://localhost:9000/api/vision/analyze-details
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="test-image.jpg"
+Content-Type: image/jpeg
+
+< ./test-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+

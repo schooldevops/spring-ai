@@ -25,13 +25,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     
     // Spring AI OpenAI (주석 해제하여 사용)
-    implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-M6")
+//    implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-M6")
     
     // Spring AI Anthropic (Claude 사용 시 주석 해제)
     // implementation("org.springframework.ai:spring-ai-anthropic-spring-boot-starter:1.0.0-M6")
     
     // Spring AI Ollama (로컬 LLM 사용 시 주석 해제)
-    // implementation("org.springframework.ai:spring-ai-ollama-spring-boot-starter:1.0.0-M6")
+     implementation("org.springframework.ai:spring-ai-ollama-spring-boot-starter:1.0.0-M6")
     
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")

@@ -1,0 +1,30 @@
+POST localhost:9000/api/advanced/email
+Content-Type: application/json
+
+{
+  "recipient": "baekido@gmail.com",
+  "subject": "템플릿 안내",
+  "purpose": "사용가능한 템플릿에 대한 소개",
+  "requirements": "반드시 숙지하고 올것"
+}
+
+### Code help
+POST localhost:9000/api/advanced/code-help
+Content-Type: application/json
+
+{
+  "language": "kotlin",
+  "framework": "SpringBoot",
+  "question": "간단한 사칙연산 계산기 코드를 생성해줘",
+  "context": "숫자 파라미터 여러개가 들어오면 사칙연산을 수행하는 api"
+}
+
+### Translate
+POST localhost:9000/api/advanced/translate
+Content-Type: application/json
+
+{
+  "targetLanguage": "korean",
+  "sourceLanguage": "english",
+  "text": "I'd like to drink some coffee"
+}

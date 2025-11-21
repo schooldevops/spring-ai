@@ -1,0 +1,112 @@
+### Function Calling 외부 API 연동 테스트
+
+### 1. 상태 확인
+GET http://localhost:9000/api/function-call/test
+
+###
+
+### 2. 지원하는 도시 목록 조회
+GET http://localhost:9000/api/function-call/weather/locations
+
+###
+
+### 3. 날씨 조회 함수 테스트 - 서울
+POST http://localhost:9000/api/function-call/weather
+Content-Type: application/json
+
+{
+  "message": "서울 날씨 알려줘"
+}
+
+###
+
+### 4. 날씨 조회 함수 테스트 - 부산
+POST http://localhost:9000/api/function-call/weather
+Content-Type: application/json
+
+{
+  "message": "부산 날씨는?"
+}
+
+###
+
+### 5. 날씨 조회 함수 테스트 - 제주
+POST http://localhost:9000/api/function-call/weather
+Content-Type: application/json
+
+{
+  "message": "제주도 날씨 알려줘"
+}
+
+###
+
+### 6. 주문 상태 조회 함수 테스트 - ORD-001
+POST http://localhost:9000/api/function-call/order
+Content-Type: application/json
+
+{
+  "message": "ORD-001 주문 상태 알려줘"
+}
+
+###
+
+### 7. 주문 상태 조회 함수 테스트 - ORD-002
+POST http://localhost:9000/api/function-call/order
+Content-Type: application/json
+
+{
+  "message": "ORD-002 주문 확인"
+}
+
+###
+
+### 8. 주문 상태 조회 함수 테스트 - 존재하지 않는 주문
+POST http://localhost:9000/api/function-call/order
+Content-Type: application/json
+
+{
+  "message": "ORD-999 주문 상태 알려줘"
+}
+
+###
+
+### 9. 스마트 호출 - 날씨만
+POST http://localhost:9000/api/function-call/smart
+Content-Type: application/json
+
+{
+  "message": "부산 날씨는?"
+}
+
+###
+
+### 10. 스마트 호출 - 주문만
+POST http://localhost:9000/api/function-call/smart
+Content-Type: application/json
+
+{
+  "message": "ORD-003 주문 상태는?"
+}
+
+###
+
+### 11. 스마트 호출 - 복합 요청
+POST http://localhost:9000/api/function-call/smart
+Content-Type: application/json
+
+{
+  "message": "서울 날씨 알려주고 ORD-001 주문 상태도 확인해줘"
+}
+
+###
+
+### 12. 일반 호출 (비교용) - 함수 없이
+POST http://localhost:9000/api/function-call/normal
+Content-Type: application/json
+
+{
+  "message": "서울 날씨 알려줘"
+}
+
+###
+
