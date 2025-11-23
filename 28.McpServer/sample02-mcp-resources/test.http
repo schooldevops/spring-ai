@@ -1,0 +1,17 @@
+### List Resources
+GET http://localhost:9801/api/resources
+
+###
+
+### Get Users Resource
+GET http://localhost:9801/api/resources/users
+
+###
+
+### Get Products Resource
+GET http://localhost:9801/api/resources/products
+
+###
+
+### Get Info
+GET http://localhost:9801/api/resources/info

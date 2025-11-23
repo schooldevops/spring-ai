@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: chatclient-entity-mapping-sample
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4o-mini
+          temperature: 0.7
+server:
+  port: 9102
+logging:
+  level:
+    org.springframework.ai: DEBUG

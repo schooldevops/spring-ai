@@ -1,0 +1,7 @@
+### Get MCP Info
+GET http://localhost:9700/api/mcp/info
+
+###
+
+### Get Status
+GET http://localhost:9700/api/mcp/status

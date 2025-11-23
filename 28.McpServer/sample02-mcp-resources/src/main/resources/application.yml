@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: mcpserver-stdio-sse-sample
+  ai:
+    mcp:
+      server:
+        enabled: true
+        name: "STDIO/SSE MCP Server"
+        version: "1.0.0"
+        # STDIO transport for local process communication
+        # SSE (Server-Sent Events) for real-time streaming
+server:
+  port: 9801
+logging:
+  level:
+    org.springframework.ai: DEBUG

@@ -1,0 +1,10 @@
+### Generate
+POST http://localhost:9401/api/image/generate
+Content-Type: application/json
+
+{"prompt": "A beautiful landscape"}
+
+###
+
+### Info
+GET http://localhost:9401/api/image/info

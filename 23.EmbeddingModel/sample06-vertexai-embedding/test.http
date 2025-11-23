@@ -1,0 +1,15 @@
+### Embed
+GET http://localhost:9305/api/vertexai/embed?text=Google VertexAI provides AI models
+
+###
+
+### Batch
+POST http://localhost:9305/api/vertexai/batch
+Content-Type: application/json
+
+["Google", "VertexAI", "Embeddings"]
+
+###
+
+### Info
+GET http://localhost:9305/api/vertexai/info

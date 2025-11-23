@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: embedding-ollama-sample
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      embedding:
+        options:
+          model: nomic-embed-text # or mxbai-embed-large, all-minilm
+server:
+  port: 9306
+logging:
+  level:
+    org.springframework.ai: DEBUG

@@ -621,7 +621,118 @@ data class User(
 
 ## 8. 주의사항 및 트러블슈팅
 
-### 8.1 일반적인 문제들
+### 8.1 실제 발생한 오류: Type Mismatch Error
+
+#### 증상
+
+```
+com.fasterxml.jackson.databind.exc.InvalidFormatException: 
+Cannot deserialize value of type `int` from String "연령은 민감한 정보일 수 있으므로, 
+온라인 스펙이나 관심사를 묻는 것이 좋습니다.": not a valid `int` value
+```
+
+#### 원인 분석
+
+이 오류는 다음과 같은 상황에서 발생합니다:
+
+1. **모호한 질문**: 사용자가 "어떤 질문이 좋을까?"와 같이 실제 데이터를 요청하지 않고 조언을 구함
+2. **AI의 잘못된 응답**: AI가 실제 데이터 대신 조언 텍스트를 JSON 필드에 넣음
+3. **타입 불일치**: `age` 필드(Int 타입)에 문자열이 들어가서 역직렬화 실패
+
+**잘못된 AI 응답 예시:**
+```json
+{
+  "name": "사용자",
+  "age": "연령은 민감한 정보일 수 있으므로...",
+  "email": "example@example.com"
+}
+```
+
+#### 해결 방법
+
+**1. 명확한 프롬프트 작성**
+
+```kotlin
+// ❌ 나쁜 예: 모호한 시스템 메시지
+SystemMessage("다음 JSON 형식으로 응답해주세요: $format")
+
+// ✅ 좋은 예: 명확하고 구체적인 지시
+SystemMessage(
+    """
+    당신은 JSON 데이터 생성 전문가입니다.
+    사용자의 질문에서 정보를 추출하거나 생성하여 다음 JSON 형식으로 응답해주세요:
+    $format
+    
+    중요한 규칙:
+    1. 응답은 반드시 유효한 JSON 형식이어야 합니다.
+    2. JSON 외에 다른 텍스트나 설명을 포함하지 마세요.
+    3. age는 반드시 숫자(정수)여야 합니다.
+    4. 정보가 명시되지 않은 경우 합리적인 기본값을 사용하세요.
+    5. 조언이나 제안이 아닌 실제 데이터를 반환하세요.
+    """.trimIndent()
+)
+```
+
+**2. 구체적인 테스트 질문 사용**
+
+```kotlin
+// ❌ 나쁜 예: 모호한 질문
+{"question": "사용자 정보를 제공해주세요. 어떤 질문이 좋을까?"}
+
+// ✅ 좋은 예: 구체적인 데이터 포함
+{"question": "사용자 정보를 제공해주세요. 이름은 홍길동, 나이는 30, 이메일은 hong@example.com입니다."}
+
+// ✅ 좋은 예: 자연어에서 추출
+{"question": "안녕하세요, 저는 김철수입니다. 25살이고 이메일은 kim@test.com 입니다."}
+```
+
+**3. 에러 처리 강화**
+
+```kotlin
+return try {
+    parser.parse(text)
+} catch (e: Exception) {
+    throw IllegalArgumentException(
+        "JSON 파싱 실패: ${e.message}\n\n" +
+        "LLM 응답 내용:\n$text\n\n" +
+        "예상 형식:\n$format",
+        e
+    )
+}
+```
+
+### 8.2 프롬프트 작성 베스트 프랙티스
+
+#### ✅ 효과적인 프롬프트 패턴
+
+```kotlin
+val effectivePrompt = """
+당신은 [역할]입니다.
+[작업 설명]을 수행하여 다음 형식으로 응답해주세요:
+$format
+
+중요한 규칙:
+1. [형식 요구사항]
+2. [타입 제약사항]
+3. [기본값 처리 방법]
+4. [금지사항]
+""".trimIndent()
+```
+
+#### ❌ 피해야 할 프롬프트 패턴
+
+```kotlin
+// 너무 간단함
+val badPrompt1 = "JSON으로 응답해주세요"
+
+// 모호함
+val badPrompt2 = "다음 형식으로 응답해주세요: $format"
+
+// 타입 제약 없음
+val badPrompt3 = "사용자 정보를 JSON으로 주세요"
+```
+
+### 8.3 일반적인 문제들
 
 #### 문제 1: 파싱 실패
 

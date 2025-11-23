@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: mcpserver-stateless-sample
+  ai:
+    mcp:
+      server:
+        enabled: true
+        name: "Stateless MCP Server"
+        version: "1.0.0"
+        # Stateless server - no session management
+server:
+  port: 9803
+logging:
+  level:
+    org.springframework.ai: DEBUG

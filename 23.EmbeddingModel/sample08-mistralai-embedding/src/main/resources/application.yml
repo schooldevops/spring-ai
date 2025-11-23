@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: embedding-mistralai-sample
+  ai:
+    mistralai:
+      api-key: ${MISTRAL_AI_API_KEY}
+      embedding:
+        options:
+          model: mistral-embed # 1024 dimensions
+server:
+  port: 9307
+logging:
+  level:
+    org.springframework.ai: DEBUG

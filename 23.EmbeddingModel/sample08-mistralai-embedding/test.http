@@ -1,0 +1,15 @@
+### Embed
+GET http://localhost:9307/api/mistralai/embed?text=MistralAI provides AI models
+
+###
+
+### Batch
+POST http://localhost:9307/api/mistralai/batch
+Content-Type: application/json
+
+["MistralAI", "Embeddings", "Europe"]
+
+###
+
+### Info
+GET http://localhost:9307/api/mistralai/info

@@ -1,0 +1,13 @@
+### Batch Embed
+POST http://localhost:9301/api/batch/embed
+Content-Type: application/json
+
+["Spring AI is awesome", "Kotlin is great", "OpenAI provides AI models"]
+
+###
+
+### Embed For Response
+POST http://localhost:9301/api/batch/embed-response
+Content-Type: application/json
+
+["Machine Learning", "Deep Learning", "Neural Networks"]

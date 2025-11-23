@@ -1,0 +1,10 @@
+### Generate
+POST http://localhost:9404/api/image/generate
+Content-Type: application/json
+
+{"prompt": "美丽的风景画"}
+
+###
+
+### Info
+GET http://localhost:9404/api/image/info

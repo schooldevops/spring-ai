@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: image-qianfan-sample
+  ai:
+    qianfan:
+      api-key: ${QIANFAN_API_KEY}
+      secret-key: ${QIANFAN_SECRET_KEY}
+      image:
+        options:
+          model: ernie-vilg-v2
+server:
+  port: 9404
+logging:
+  level:
+    org.springframework.ai: DEBUG

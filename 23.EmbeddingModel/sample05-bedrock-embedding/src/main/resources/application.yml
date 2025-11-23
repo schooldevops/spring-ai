@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: embedding-bedrock-sample
+  ai:
+    bedrock:
+      titan:
+        embedding:
+          enabled: true
+          model: amazon.titan-embed-text-v1 # or amazon.titan-embed-text-v2
+      aws:
+        region: us-east-1
+        access-key: ${AWS_ACCESS_KEY_ID}
+        secret-key: ${AWS_SECRET_ACCESS_KEY}
+server:
+  port: 9304
+logging:
+  level:
+    org.springframework.ai: DEBUG

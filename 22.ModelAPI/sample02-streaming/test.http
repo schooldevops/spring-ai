@@ -1,0 +1,12 @@
+### Stream Simple
+GET http://localhost:9201/api/stream/simple?message=Write a short poem
+
+###
+
+### Stream Prompt
+GET http://localhost:9201/api/stream/prompt?message=Count from 1 to 5
+
+###
+
+### Aggregated
+GET http://localhost:9201/api/stream/aggregated?message=Tell me a joke

@@ -1,0 +1,12 @@
+### Test 1: Stream Content (Server-Sent Events)
+GET http://localhost:9103/api/stream/content?prompt=Write a short poem about spring
+
+###
+
+### Test 2: Aggregated Stream
+GET http://localhost:9103/api/stream/aggregated?prompt=Tell me a short story
+
+###
+
+### Test 3: Stream ChatResponse
+GET http://localhost:9103/api/stream/chat-response?prompt=Count from 1 to 10

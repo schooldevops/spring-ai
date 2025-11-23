@@ -1,0 +1,27 @@
+### Ask Weather
+POST http://localhost:9601/api/chat/ask
+Content-Type: application/json
+
+{
+  "question": "What's the weather like in Seoul?"
+}
+
+###
+
+### Weather with Unit
+POST http://localhost:9601/api/chat/ask
+Content-Type: application/json
+
+{
+  "question": "Tell me the weather in Busan in fahrenheit"
+}
+
+###
+
+### Multiple Cities
+POST http://localhost:9601/api/chat/ask
+Content-Type: application/json
+
+{
+  "question": "Compare the weather between Seoul and Jeju"
+}

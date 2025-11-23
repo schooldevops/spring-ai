@@ -1,0 +1,22 @@
+### Create Conversation
+POST http://localhost:9503/api/conversations
+
+###
+
+### List Conversations
+GET http://localhost:9503/api/conversations
+
+###
+
+### Send Message (replace {id} with actual conversation ID)
+POST http://localhost:9503/api/conversations/{id}/messages
+Content-Type: application/json
+
+{
+  "message": "Hello, this is a new conversation"
+}
+
+###
+
+### Delete Conversation
+DELETE http://localhost:9503/api/conversations/{id}

@@ -1,0 +1,28 @@
+### Generate Image
+POST http://localhost:9400/api/image/generate
+Content-Type: application/json
+
+{
+  "prompt": "A beautiful sunset over mountains with a lake",
+  "width": 1024,
+  "height": 1024,
+  "quality": "hd",
+  "style": "vivid"
+}
+
+###
+
+### Generate and Save
+POST http://localhost:9400/api/image/generate-and-save
+Content-Type: application/json
+
+{
+  "prompt": "A futuristic city with flying cars",
+  "width": 1024,
+  "height": 1024
+}
+
+###
+
+### Info
+GET http://localhost:9400/api/image/info

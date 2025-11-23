@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: image-stability-sample
+  ai:
+    stabilityai:
+      api-key: ${STABILITY_AI_API_KEY}
+      image:
+        options:
+          model: stable-diffusion-xl-1024-v1-0
+server:
+  port: 9402
+logging:
+  level:
+    org.springframework.ai: DEBUG

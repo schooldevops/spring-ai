@@ -1,0 +1,10 @@
+### Generate
+POST http://localhost:9403/api/image/generate
+Content-Type: application/json
+
+{"prompt": "一只可爱的熊猫"}
+
+###
+
+### Info
+GET http://localhost:9403/api/image/info

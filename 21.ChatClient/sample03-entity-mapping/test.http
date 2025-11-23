@@ -1,0 +1,17 @@
+### Test 1: Actor Filmography
+POST http://localhost:9102/api/entity/actor?actor=Tom Hanks
+
+###
+
+### Test 2: Product Info
+POST http://localhost:9102/api/entity/product?productName=iPhone 15
+
+###
+
+### Test 3: Multiple Actors List
+POST http://localhost:9102/api/entity/actors-list?actors=Tom Hanks, Bill Murray
+
+###
+
+### Test 4: Book Info
+GET http://localhost:9102/api/entity/book?title=1984

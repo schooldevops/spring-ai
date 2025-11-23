@@ -1,0 +1,17 @@
+### Test 1: No Defaults
+GET http://localhost:9105/api/defaults/no-defaults?question=What is Spring AI?
+
+###
+
+### Test 2: With Defaults (기본 시스템 메시지 자동 적용)
+GET http://localhost:9105/api/defaults/with-defaults?question=Explain ChatClient
+
+###
+
+### Test 3: Override Defaults
+GET http://localhost:9105/api/defaults/override?question=What is calculus?&role=math tutor
+
+###
+
+### Test 4: Combined (기본값 + 추가 컨텍스트)
+POST http://localhost:9105/api/defaults/combined?question=Explain AI&additionalContext=Focus on machine learning

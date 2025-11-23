@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: embedding-vertexai-sample
+  ai:
+    vertex:
+      ai:
+        embedding:
+          enabled: true
+          model: textembedding-gecko@003 # or text-embedding-preview-0409
+        project-id: ${GCP_PROJECT_ID}
+        location: us-central1
+server:
+  port: 9305
+logging:
+  level:
+    org.springframework.ai: DEBUG

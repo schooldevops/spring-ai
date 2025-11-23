@@ -1,0 +1,26 @@
+### Cosine Similarity
+POST http://localhost:9302/api/similarity/cosine
+Content-Type: application/json
+
+{
+  "text1": "Spring AI is awesome",
+  "text2": "Spring AI is great"
+}
+
+###
+
+### Semantic Search
+POST http://localhost:9302/api/similarity/search
+Content-Type: application/json
+
+{
+  "query": "Tell me about Spring AI",
+  "documents": [
+    "Spring AI provides AI integration for Spring applications",
+    "Kotlin is a modern programming language",
+    "Machine learning is a subset of artificial intelligence",
+    "Spring Framework is a popular Java framework",
+    "OpenAI provides powerful AI models"
+  ],
+  "topK": 3
+}

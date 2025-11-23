@@ -1,0 +1,27 @@
+### Ask Math Question
+POST http://localhost:9600/api/chat/ask
+Content-Type: application/json
+
+{
+  "question": "What is 123 plus 456?"
+}
+
+###
+
+### Multiply
+POST http://localhost:9600/api/chat/ask
+Content-Type: application/json
+
+{
+  "question": "Calculate 25 times 4"
+}
+
+###
+
+### Divide
+POST http://localhost:9600/api/chat/ask
+Content-Type: application/json
+
+{
+  "question": "What is 100 divided by 5?"
+}

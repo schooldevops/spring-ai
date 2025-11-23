@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: image-azure-sample
+  ai:
+    azure:
+      openai:
+        api-key: ${AZURE_OPENAI_API_KEY}
+        endpoint: ${AZURE_OPENAI_ENDPOINT}
+        image:
+          options:
+            deployment-name: dall-e-3
+server:
+  port: 9401
+logging:
+  level:
+    org.springframework.ai: DEBUG

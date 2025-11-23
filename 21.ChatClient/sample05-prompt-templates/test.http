@@ -1,0 +1,17 @@
+### Test 1: Single Variable
+GET http://localhost:9104/api/template/single?topic=Spring AI
+
+###
+
+### Test 2: Multiple Variables
+GET http://localhost:9104/api/template/multiple?topic=ChatClient&language=Korean&length=3
+
+###
+
+### Test 3: System Template
+GET http://localhost:9104/api/template/system-template?role=math tutor&question=What is calculus?
+
+###
+
+### Test 4: Complex Template
+POST http://localhost:9104/api/template/complex?subject=quantum physics&audience=high school students&format=simple explanation

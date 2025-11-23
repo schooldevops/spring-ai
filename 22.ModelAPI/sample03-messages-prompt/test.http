@@ -1,0 +1,12 @@
+### UserMessage
+GET http://localhost:9202/api/messages/user-message?message=What is Spring AI?
+
+###
+
+### System and User
+GET http://localhost:9202/api/messages/system-user?system=You are a math tutor&user=What is calculus?
+
+###
+
+### Conversation
+GET http://localhost:9202/api/messages/conversation?question=Can you explain more?

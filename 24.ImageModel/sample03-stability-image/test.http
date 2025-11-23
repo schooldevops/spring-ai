@@ -1,0 +1,10 @@
+### Generate
+POST http://localhost:9402/api/image/generate
+Content-Type: application/json
+
+{"prompt": "A cyberpunk cityscape at night"}
+
+###
+
+### Info
+GET http://localhost:9402/api/image/info

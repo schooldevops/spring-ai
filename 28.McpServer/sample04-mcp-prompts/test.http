@@ -1,0 +1,29 @@
+### List Prompts
+GET http://localhost:9803/api/prompts
+
+###
+
+### Get Greeting Prompt
+POST http://localhost:9803/api/prompts/greeting
+Content-Type: application/json
+
+{
+  "name": "Alice"
+}
+
+###
+
+### Get Translation Prompt
+POST http://localhost:9803/api/prompts/translate
+Content-Type: application/json
+
+{
+  "from": "English",
+  "to": "Korean",
+  "text": "Hello, how are you?"
+}
+
+###
+
+### Get Info
+GET http://localhost:9803/api/prompts/info

@@ -1,0 +1,12 @@
+### Simple Embedding
+GET http://localhost:9300/api/embedding/simple?text=Spring AI is awesome
+
+###
+
+### Get Dimensions
+GET http://localhost:9300/api/embedding/dimensions
+
+###
+
+### Full Vector
+GET http://localhost:9300/api/embedding/full-vector?text=Hello World

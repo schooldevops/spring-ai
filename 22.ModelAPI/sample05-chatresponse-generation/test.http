@@ -1,0 +1,7 @@
+### Full Response
+GET http://localhost:9204/api/response/full?message=What is Spring AI?
+
+###
+
+### Usage Info
+GET http://localhost:9204/api/response/usage?message=Explain ChatModel API

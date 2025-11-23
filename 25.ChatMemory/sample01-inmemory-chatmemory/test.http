@@ -1,0 +1,29 @@
+### Send Message
+POST http://localhost:9500/api/chat/message
+Content-Type: application/json
+
+{
+  "conversationId": "user-123",
+  "message": "My name is Alice"
+}
+
+###
+
+### Send Follow-up
+POST http://localhost:9500/api/chat/message
+Content-Type: application/json
+
+{
+  "conversationId": "user-123",
+  "message": "What is my name?"
+}
+
+###
+
+### Get History
+GET http://localhost:9500/api/chat/history/user-123
+
+###
+
+### Clear History
+DELETE http://localhost:9500/api/chat/history/user-123

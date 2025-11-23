@@ -1,0 +1,12 @@
+### Temperature
+GET http://localhost:9203/api/options/temperature?message=Write a creative story&temperature=1.5
+
+###
+
+### Max Tokens
+GET http://localhost:9203/api/options/max-tokens?message=Explain AI&maxTokens=50
+
+###
+
+### Multiple Options
+GET http://localhost:9203/api/options/multiple-options?message=What is Spring AI?

@@ -1,0 +1,15 @@
+### Embed
+GET http://localhost:9303/api/openai/embed?text=OpenAI provides powerful AI models
+
+###
+
+### Batch Embed
+POST http://localhost:9303/api/openai/batch
+Content-Type: application/json
+
+["Spring AI", "OpenAI", "Embeddings"]
+
+###
+
+### Info
+GET http://localhost:9303/api/openai/info

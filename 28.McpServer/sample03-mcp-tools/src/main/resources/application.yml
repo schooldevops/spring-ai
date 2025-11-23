@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: mcpserver-streamable-http-sample
+  ai:
+    mcp:
+      server:
+        enabled: true
+        name: "Streamable HTTP MCP Server"
+        version: "1.0.0"
+        # Streamable HTTP for chunked responses
+server:
+  port: 9802
+logging:
+  level:
+    org.springframework.ai: DEBUG

@@ -1,0 +1,17 @@
+### Test 1: Simple Call
+GET http://localhost:9200/api/basic/simple?message=What is 2+2?
+
+###
+
+### Test 2: Prompt Call
+GET http://localhost:9200/api/basic/prompt?message=Explain AI in one sentence
+
+###
+
+### Test 3: UserMessage Call
+GET http://localhost:9200/api/basic/user-message?message=Tell me a joke
+
+###
+
+### Test 4: Full Response
+GET http://localhost:9200/api/basic/full-response?message=What is Spring AI?

@@ -1,0 +1,15 @@
+### Embed
+GET http://localhost:9306/api/ollama/embed?text=Ollama provides local AI models
+
+###
+
+### Batch
+POST http://localhost:9306/api/ollama/batch
+Content-Type: application/json
+
+["Ollama", "Local", "Embeddings"]
+
+###
+
+### Info
+GET http://localhost:9306/api/ollama/info

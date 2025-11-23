@@ -1,0 +1,7 @@
+### Get Server Info
+GET http://localhost:9800/api/server/info
+
+###
+
+### Get Status
+GET http://localhost:9800/api/server/status

@@ -1,0 +1,31 @@
+### List Tools
+GET http://localhost:9802/api/tools
+
+###
+
+### Calculate
+POST http://localhost:9802/api/tools/calculate
+Content-Type: application/json
+
+{
+  "operation": "add",
+  "a": 15,
+  "b": 27
+}
+
+###
+
+### Convert Temperature
+POST http://localhost:9802/api/tools/convert-temperature
+Content-Type: application/json
+
+{
+  "value": 100,
+  "from": "celsius",
+  "to": "fahrenheit"
+}
+
+###
+
+### Get Info
+GET http://localhost:9802/api/tools/info

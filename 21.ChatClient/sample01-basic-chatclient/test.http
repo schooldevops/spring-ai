@@ -1,0 +1,37 @@
+### Test 1: Simple String Prompt
+POST http://localhost:9100/api/basic/simple
+Content-Type: application/json
+
+{
+    "message": "What is 2+2? Answer with just the number."
+}
+
+###
+
+### Test 2: Fluent API
+POST http://localhost:9100/api/basic/fluent
+Content-Type: application/json
+
+{
+    "message": "Tell me a short joke."
+}
+
+###
+
+### Test 3: With Metadata
+POST http://localhost:9100/api/basic/metadata
+Content-Type: application/json
+
+{
+    "message": "Explain Spring AI in one sentence."
+}
+
+###
+
+### Test 4: With System Message
+POST http://localhost:9100/api/basic/with-system
+Content-Type: application/json
+
+{
+    "message": "What is quantum computing?"
+}

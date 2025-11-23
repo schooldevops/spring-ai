@@ -1,0 +1,19 @@
+### Chat with Auto Memory
+POST http://localhost:9502/api/chat/message
+Content-Type: application/json
+
+{
+  "conversationId": "user-789",
+  "message": "I live in Seoul"
+}
+
+###
+
+### Follow-up
+POST http://localhost:9502/api/chat/message
+Content-Type: application/json
+
+{
+  "conversationId": "user-789",
+  "message": "Where do I live?"
+}

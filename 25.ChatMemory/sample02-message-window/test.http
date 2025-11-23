@@ -1,0 +1,14 @@
+### Chat with Window Size
+POST http://localhost:9501/api/chat/message
+Content-Type: application/json
+
+{
+  "conversationId": "user-456",
+  "message": "Remember: my favorite color is blue",
+  "windowSize": 6
+}
+
+###
+
+### Get History
+GET http://localhost:9501/api/chat/history/user-456?limit=10

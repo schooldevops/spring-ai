@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: chatmodel-messages-prompt-sample
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4o-mini
+server:
+  port: 9202
+logging:
+  level:
+    org.springframework.ai: DEBUG

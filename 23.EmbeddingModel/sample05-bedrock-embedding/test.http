@@ -1,0 +1,15 @@
+### Embed
+GET http://localhost:9304/api/bedrock/embed?text=Amazon Bedrock provides AI models
+
+###
+
+### Batch
+POST http://localhost:9304/api/bedrock/batch
+Content-Type: application/json
+
+["AWS", "Bedrock", "Titan"]
+
+###
+
+### Info
+GET http://localhost:9304/api/bedrock/info

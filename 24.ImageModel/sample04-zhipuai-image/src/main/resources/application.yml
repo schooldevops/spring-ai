@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: image-zhipuai-sample
+  ai:
+    zhipuai:
+      api-key: ${ZHIPU_AI_API_KEY}
+      image:
+        options:
+          model: cogview-3
+server:
+  port: 9403
+logging:
+  level:
+    org.springframework.ai: DEBUG
