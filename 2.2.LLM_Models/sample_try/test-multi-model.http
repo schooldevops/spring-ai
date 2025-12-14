@@ -1,0 +1,8 @@
+### Get default model
+GET http://localhost:9000/api/multi/default?message=안녕하세요
+
+### Get Ollama model
+GET http://localhost:9000/api/multi/ollama?message=안녕하세요
+
+### Compare models
+GET http://localhost:9000/api/multi/compare?message=안녕하세요

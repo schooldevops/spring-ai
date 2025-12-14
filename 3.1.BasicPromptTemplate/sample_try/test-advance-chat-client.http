@@ -1,0 +1,31 @@
+### POST email
+POST http://localhost:9000/api/advanced/email
+Content-Type: application/json
+
+{
+    "recipient": "홍길동",
+    "subject": "안녕하세요",
+    "purpose": "프로그래밍",
+    "requirements": "없음"
+}
+
+### POST translate
+POST http://localhost:9000/api/advanced/translate
+Content-Type: application/json
+
+{
+    "sourceLanguage": "en",
+    "targetLanguage": "ko",
+    "text": "Hello, how are you?"
+}
+
+### POST code-help
+POST http://localhost:9000/api/advanced/code-help
+Content-Type: application/json
+
+{
+    "language": "kotlin",
+    "framework": "spring",
+    "question": "간단한 사칙연산 코드를 만들어줘",
+    "context": ""
+}

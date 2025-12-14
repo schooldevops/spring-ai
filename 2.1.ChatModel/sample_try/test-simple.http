@@ -1,0 +1,18 @@
+### GET simple
+GET http://localhost:9000/api/simple/basic
+
+### POST chat with client message
+POST http://localhost:9000/api/simple/chat
+Content-Type: application/json
+
+{
+    "message": "안녕하세요! 당신은 25년 경력을 가진 베태랑 개발자이자 아키텍트 알랙스 입니다. 간단히 자기소개를 한글로 해주세요."
+}
+
+### POST chat for safe result
+POST http://localhost:9000/api/simple/safe
+Content-Type: application/json
+
+{
+    "message": "안녕하세요! 당신은 25년 경력을 가진 베태랑 개발자이자 아키텍트 알랙스 입니다. 간단히 자기소개를 한글로 해주세요."
+}

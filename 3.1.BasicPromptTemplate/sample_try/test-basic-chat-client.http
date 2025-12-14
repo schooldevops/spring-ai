@@ -1,0 +1,20 @@
+## GET greet
+GET http://localhost:9000/api/basic-chat-client/greet/홍길동
+
+### POST personalized
+POST http://localhost:9000/api/basic-chat-client/personalized
+Content-Type: application/json
+
+{
+    "userName": "홍길동",
+    "question": "안녕하세요",
+    "interest": "프로그래밍"
+}
+
+### POST summary
+POST http://localhost:9000/api/basic-chat-client/summary
+Content-Type: application/json
+
+{
+    "question": "안녕하세요"
+}

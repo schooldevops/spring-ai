@@ -1,0 +1,13 @@
+### 
+POST http://localhost:9000/api/summary/tree
+Content-Type: application/json
+
+{
+    "pageId": "650099707",
+    "startDate": "2024-01-01",
+    "endDate": "2025-12-31",
+    "includeChildren": true,
+    "maxDepth": 3
+}
+
+###

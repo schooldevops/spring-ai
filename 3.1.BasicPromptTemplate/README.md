@@ -664,17 +664,559 @@ val template = PromptTemplate("집합 {1, 2, 3}에 대해 설명해주세요")
 
 ---
 
-## 8. 요약
+## 9. ChatClient를 사용한 PromptTemplate 활용
 
-### 8.1 핵심 내용 정리
+### 9.1 ChatClient란?
+
+**ChatClient**는 Spring AI 1.0.0-M6에서 도입된 더 현대적이고 유연한 API입니다. PromptTemplate과 ChatModel을 사용하는 기존 방식보다 **간결하고 읽기 쉬운 코드**를 작성할 수 있습니다.
+
+**주요 특징:**
+- **Fluent API**: 메서드 체이닝으로 직관적인 코드 작성
+- **간결성**: 보일러플레이트 코드 감소
+- **유연성**: 다양한 프롬프트 구성 방식 지원
+- **타입 안전**: Kotlin의 람다와 함께 사용 시 타입 안전성 보장
+
+### 9.2 ChatModel vs ChatClient 비교
+
+#### ChatModel 방식 (기존)
+
+```kotlin
+@Service
+class TemplateService(
+    private val chatModel: ChatModel
+) {
+    private val greetingTemplate = PromptTemplate(
+        "안녕하세요 {name}님! 오늘도 좋은 하루 되세요."
+    )
+    
+    fun generateGreeting(name: String): String {
+        val prompt = greetingTemplate.create(mapOf("name" to name))
+        val response = chatModel.call(prompt)
+        return response.results.firstOrNull()?.output?.text ?: "응답 없음"
+    }
+}
+```
+
+#### ChatClient 방식 (새로운)
+
+```kotlin
+@Service
+class TemplateClientService(
+    private val chatClientBuilder: ChatClient.Builder
+) {
+    private val chatClient = chatClientBuilder.build()
+    
+    private val greetingTemplate = "안녕하세요 {name}님! 오늘도 좋은 하루 되세요."
+    
+    fun generateGreeting(name: String): String {
+        return chatClient.prompt()
+            .user { u -> u.text(greetingTemplate).param("name", name) }
+            .call()
+            .content() ?: "응답 없음"
+    }
+}
+```
+
+**차이점:**
+1. **PromptTemplate 객체 불필요**: 문자열 템플릿만으로 충분
+2. **Prompt 객체 생성 불필요**: 내부적으로 처리
+3. **응답 추출 간소화**: `.content()`로 직접 접근
+4. **메서드 체이닝**: 읽기 쉬운 코드 구조
+
+### 9.3 ChatClient 기본 사용법
+
+#### 9.3.1 서비스 초기화
+
+```kotlin
+@Service
+class TemplateClientService(
+    private val chatClientBuilder: ChatClient.Builder
+) {
+    // ChatClient 인스턴스 생성
+    private val chatClient = chatClientBuilder.build()
+    
+    // 템플릿은 일반 문자열로 정의
+    private val greetingTemplate = "안녕하세요 {name}님! 오늘도 좋은 하루 되세요."
+}
+```
+
+> 💡 **중요**: `ChatClient.Builder`를 주입받아 `build()`로 인스턴스를 생성합니다.
+
+#### 9.3.2 단일 변수 템플릿
+
+```kotlin
+fun generateGreeting(name: String): String {
+    return chatClient.prompt()
+        .user { u -> u.text(greetingTemplate).param("name", name) }
+        .call()
+        .content() ?: "응답 없음"
+}
+```
+
+**단계별 설명:**
+1. `.prompt()`: 프롬프트 빌더 시작
+2. `.user { ... }`: 사용자 메시지 설정
+   - `u.text(template)`: 템플릿 문자열 설정
+   - `.param("name", value)`: 변수 값 바인딩
+3. `.call()`: LLM 호출
+4. `.content()`: 응답 텍스트 추출
+
+#### 9.3.3 여러 변수 템플릿
+
+```kotlin
+private val questionTemplate = """
+    {userName}님이 질문하셨습니다:
+    
+    질문: {question}
+    
+    {additionalContext}
+    
+    친절하고 정확하게 답변해주세요.
+""".trimIndent()
+
+fun answerQuestion(userName: String, question: String, context: String = ""): String {
+    val additionalContext = if (context.isNotEmpty()) {
+        "추가 컨텍스트: $context"
+    } else {
+        ""
+    }
+    
+    return chatClient.prompt()
+        .user { u ->
+            u.text(questionTemplate)
+                .param("userName", userName)
+                .param("question", question)
+                .param("additionalContext", additionalContext)
+        }
+        .call()
+        .content() ?: "응답 없음"
+}
+```
+
+**핵심 포인트:**
+- 여러 `.param()` 호출을 체이닝하여 모든 변수 바인딩
+- 조건부 변수 값 설정 가능 (예: `additionalContext`)
+- 멀티라인 템플릿은 `trimIndent()`로 정리
+
+### 9.4 실전 예제
+
+#### 9.4.1 전체 서비스 코드
+
+```kotlin
+@Service
+class TemplateClientService(
+    private val chatClientBuilder: ChatClient.Builder
+) {
+    private val chatClient = chatClientBuilder.build()
+    
+    // 템플릿 정의
+    private val greetingTemplate = "안녕하세요 {name}님! 오늘도 좋은 하루 되세요."
+    
+    private val questionTemplate = """
+        {userName}님이 질문하셨습니다:
+        
+        질문: {question}
+        
+        {additionalContext}
+        
+        친절하고 정확하게 답변해주세요.
+    """.trimIndent()
+    
+    private val summaryTemplate = """
+        다음 내용을 요약해주세요:
+        
+        {content}
+        
+        핵심 내용을 3-5문장으로 간결하게 요약해주세요.
+    """.trimIndent()
+    
+    /** 인사말 생성 */
+    fun generateGreeting(name: String): String {
+        return chatClient.prompt()
+            .user { u -> u.text(greetingTemplate).param("name", name) }
+            .call()
+            .content() ?: "응답 없음"
+    }
+    
+    /** 질문 답변 생성 */
+    fun answerQuestion(userName: String, question: String, context: String = ""): String {
+        val additionalContext = if (context.isNotEmpty()) {
+            "추가 컨텍스트: $context"
+        } else {
+            ""
+        }
+        
+        return chatClient.prompt()
+            .user { u ->
+                u.text(questionTemplate)
+                    .param("userName", userName)
+                    .param("question", question)
+                    .param("additionalContext", additionalContext)
+            }
+            .call()
+            .content() ?: "응답 없음"
+    }
+    
+    /** 내용 요약 생성 */
+    fun summarize(content: String): String {
+        return chatClient.prompt()
+            .user { u -> u.text(summaryTemplate).param("content", content) }
+            .call()
+            .content() ?: "응답 없음"
+    }
+}
+```
+
+#### 9.4.2 컨트롤러에서 사용
+
+```kotlin
+@RestController
+@RequestMapping("/api/client")
+class TemplateClientController(
+    private val templateClientService: TemplateClientService
+) {
+    @GetMapping("/greet/{name}")
+    fun greet(@PathVariable name: String): String {
+        return templateClientService.generateGreeting(name)
+    }
+    
+    @PostMapping("/question")
+    fun askQuestion(@RequestBody request: QuestionRequest): String {
+        return templateClientService.answerQuestion(
+            userName = request.userName,
+            question = request.question,
+            context = request.context ?: ""
+        )
+    }
+    
+    @PostMapping("/summarize")
+    fun summarize(@RequestBody request: SummaryRequest): String {
+        return templateClientService.summarize(request.content)
+    }
+}
+
+data class QuestionRequest(
+    val userName: String,
+    val question: String,
+    val context: String? = null
+)
+
+data class SummaryRequest(
+    val content: String
+)
+```
+
+### 9.5 고급 기능
+
+#### 9.5.1 System 메시지 추가
+
+```kotlin
+fun generateWithSystemMessage(name: String): String {
+    return chatClient.prompt()
+        .system("당신은 친절한 AI 어시스턴트입니다.")
+        .user { u -> u.text(greetingTemplate).param("name", name) }
+        .call()
+        .content() ?: "응답 없음"
+}
+```
+
+#### 9.5.2 옵션 설정
+
+```kotlin
+fun generateWithOptions(name: String): String {
+    return chatClient.prompt()
+        .user { u -> u.text(greetingTemplate).param("name", name) }
+        .options { options ->
+            options
+                .temperature(0.7)
+                .maxTokens(100)
+        }
+        .call()
+        .content() ?: "응답 없음"
+}
+```
+
+#### 9.5.3 스트리밍 응답
+
+```kotlin
+fun generateStreaming(name: String): Flux<String> {
+    return chatClient.prompt()
+        .user { u -> u.text(greetingTemplate).param("name", name) }
+        .stream()
+        .content()
+}
+```
+
+### 9.6 테스트 작성
+
+#### 9.6.1 테스트 설정
+
+```kotlin
+@ExtendWith(MockitoExtension::class)
+class TemplateClientServiceTest {
+    
+    @Mock
+    private lateinit var chatClientBuilder: ChatClient.Builder
+    
+    @Mock
+    private lateinit var chatClient: ChatClient
+    
+    @Mock
+    private lateinit var chatClientRequestSpec: ChatClient.ChatClientRequestSpec
+    
+    @Mock
+    private lateinit var chatClientCallResponseSpec: ChatClient.CallResponseSpec
+    
+    private lateinit var templateClientService: TemplateClientService
+    
+    private fun setupChatClient() {
+        whenever(chatClientBuilder.build()).thenReturn(chatClient)
+        whenever(chatClient.prompt()).thenReturn(chatClientRequestSpec)
+        whenever(
+            chatClientRequestSpec.user(
+                any<java.util.function.Consumer<ChatClient.PromptUserSpec>>()
+            )
+        ).thenReturn(chatClientRequestSpec)
+        whenever(chatClientRequestSpec.call()).thenReturn(chatClientCallResponseSpec)
+        
+        templateClientService = TemplateClientService(chatClientBuilder)
+    }
+}
+```
+
+#### 9.6.2 테스트 예제
+
+```kotlin
+@Test
+fun `generateGreeting should return greeting message`() {
+    // Given
+    setupChatClient()
+    val name = "홍길동"
+    val expectedResponse = "안녕하세요 홍길동님! 좋은 하루 되세요!"
+    
+    whenever(chatClientCallResponseSpec.content()).thenReturn(expectedResponse)
+    
+    // When
+    val result = templateClientService.generateGreeting(name)
+    
+    // Then
+    assertNotNull(result)
+    assertEquals(expectedResponse, result)
+}
+
+@Test
+fun `should handle null response gracefully`() {
+    // Given
+    setupChatClient()
+    val name = "테스트"
+    
+    whenever(chatClientCallResponseSpec.content()).thenReturn(null)
+    
+    // When
+    val result = templateClientService.generateGreeting(name)
+    
+    // Then
+    assertEquals("응답 없음", result)
+}
+```
+
+### 9.7 ChatModel vs ChatClient 비교표
+
+| 항목 | ChatModel | ChatClient |
+|------|-----------|------------|
+| **코드 간결성** | 보통 (여러 단계 필요) | 우수 (메서드 체이닝) |
+| **가독성** | 보통 | 우수 (Fluent API) |
+| **PromptTemplate** | 필수 | 선택적 (문자열로 대체 가능) |
+| **Prompt 객체** | 명시적 생성 필요 | 자동 생성 |
+| **응답 추출** | `results.firstOrNull()?.output?.text` | `.content()` |
+| **학습 곡선** | 보통 | 낮음 |
+| **유연성** | 높음 | 매우 높음 |
+| **권장 사용** | 레거시 코드 | 신규 프로젝트 |
+
+### 9.8 마이그레이션 가이드
+
+#### 기존 ChatModel 코드를 ChatClient로 변환
+
+**Before (ChatModel):**
+```kotlin
+@Service
+class OldService(private val chatModel: ChatModel) {
+    fun process(name: String): String {
+        val template = PromptTemplate("안녕하세요 {name}님!")
+        val prompt = template.create(mapOf("name" to name))
+        val response = chatModel.call(prompt)
+        return response.results.firstOrNull()?.output?.text ?: "응답 없음"
+    }
+}
+```
+
+**After (ChatClient):**
+```kotlin
+@Service
+class NewService(private val chatClientBuilder: ChatClient.Builder) {
+    private val chatClient = chatClientBuilder.build()
+    
+    fun process(name: String): String {
+        return chatClient.prompt()
+            .user { u -> u.text("안녕하세요 {name}님!").param("name", name) }
+            .call()
+            .content() ?: "응답 없음"
+    }
+}
+```
+
+**변환 단계:**
+1. `ChatModel` → `ChatClient.Builder` 주입
+2. `chatClientBuilder.build()`로 인스턴스 생성
+3. `PromptTemplate` 제거, 문자열 템플릿 사용
+4. `.prompt().user { ... }.call().content()` 패턴 적용
+5. `.param()`으로 변수 바인딩
+
+### 9.9 베스트 프랙티스
+
+#### ✅ 권장사항
+
+```kotlin
+// 1. 템플릿을 클래스 레벨에서 정의
+private val template = "안녕하세요 {name}님!"
+
+// 2. Null 안전성 확보
+fun generate(name: String): String {
+    return chatClient.prompt()
+        .user { u -> u.text(template).param("name", name) }
+        .call()
+        .content() ?: "응답 없음"  // Elvis 연산자 사용
+}
+
+// 3. 의미 있는 변수명 사용
+.param("userName", userName)  // ✅
+.param("n", userName)         // ❌
+
+// 4. 멀티라인 템플릿은 trimIndent() 사용
+private val template = """
+    안녕하세요 {name}님!
+    오늘 날씨는 {weather}입니다.
+""".trimIndent()
+```
+
+#### ❌ 피해야 할 패턴
+
+```kotlin
+// 1. 템플릿을 매번 생성하지 말 것
+fun generate(name: String): String {
+    val template = "안녕하세요 {name}님!"  // ❌ 매번 생성
+    return chatClient.prompt()
+        .user { u -> u.text(template).param("name", name) }
+        .call()
+        .content() ?: "응답 없음"
+}
+
+// 2. Null 체크 없이 사용하지 말 것
+fun generate(name: String): String {
+    return chatClient.prompt()
+        .user { u -> u.text(template).param("name", name) }
+        .call()
+        .content()!!  // ❌ !! 연산자 사용
+}
+```
+
+### 9.10 실전 활용 팁
+
+#### 팁 1: 조건부 변수 처리
+
+```kotlin
+fun answerQuestion(userName: String, question: String, context: String? = null): String {
+    val additionalContext = context?.let { "추가 컨텍스트: $it" } ?: ""
+    
+    return chatClient.prompt()
+        .user { u ->
+            u.text(questionTemplate)
+                .param("userName", userName)
+                .param("question", question)
+                .param("additionalContext", additionalContext)
+        }
+        .call()
+        .content() ?: "응답 없음"
+}
+```
+
+#### 팁 2: 템플릿 재사용
+
+```kotlin
+@Service
+class TemplateClientService(
+    private val chatClientBuilder: ChatClient.Builder
+) {
+    private val chatClient = chatClientBuilder.build()
+    
+    // 공통 템플릿 정의
+    private val templates = mapOf(
+        "greeting" to "안녕하세요 {name}님!",
+        "farewell" to "안녕히 가세요 {name}님!",
+        "question" to "{name}님의 질문: {question}"
+    )
+    
+    fun useTemplate(type: String, params: Map<String, String>): String {
+        val template = templates[type] ?: return "템플릿을 찾을 수 없습니다"
+        
+        return chatClient.prompt()
+            .user { u ->
+                var spec = u.text(template)
+                params.forEach { (key, value) ->
+                    spec = spec.param(key, value)
+                }
+                spec
+            }
+            .call()
+            .content() ?: "응답 없음"
+    }
+}
+```
+
+#### 팁 3: 에러 처리
+
+```kotlin
+fun generateSafely(name: String): Result<String> {
+    return try {
+        val result = chatClient.prompt()
+            .user { u -> u.text(template).param("name", name) }
+            .call()
+            .content() ?: "응답 없음"
+        Result.success(result)
+    } catch (e: Exception) {
+        Result.failure(e)
+    }
+}
+```
+
+---
+
+## 10. 요약
+
+### 10.1 핵심 내용 정리
 
 1. **PromptTemplate**: 동적 프롬프트를 생성하는 템플릿 클래스
 2. **.create()**: 변수를 바인딩하여 Prompt 객체 생성
-3. **변수 바인딩**: Map을 사용하여 변수 값 제공
-4. **재사용성**: 하나의 템플릿으로 다양한 프롬프트 생성
+3. **ChatClient**: 더 현대적이고 간결한 API
+4. **변수 바인딩**: Map 또는 .param()을 사용하여 변수 값 제공
+5. **재사용성**: 하나의 템플릿으로 다양한 프롬프트 생성
 
-### 8.2 기본 패턴
+### 10.2 ChatModel vs ChatClient 선택 가이드
 
+**ChatModel을 사용하는 경우:**
+- 기존 레거시 코드 유지보수
+- PromptTemplate의 고급 기능이 필요한 경우
+- 명시적인 Prompt 객체 제어가 필요한 경우
+
+**ChatClient를 사용하는 경우:** (권장)
+- 신규 프로젝트 개발
+- 간결하고 읽기 쉬운 코드 선호
+- Fluent API 스타일 선호
+- 빠른 프로토타이핑
+
+### 10.3 기본 패턴
+
+#### ChatModel 패턴
 ```kotlin
 // 1. 템플릿 생성
 val template = PromptTemplate("안녕하세요 {name}님!")
@@ -687,11 +1229,20 @@ val response = chatModel.call(prompt)
 val result = response.results.firstOrNull()?.output?.text ?: "응답 없음"
 ```
 
-> 💡 **중요**: Spring AI 1.0.0-M6에서 `PromptTemplate.create()`는 `Prompt` 객체를 직접 반환합니다. 별도로 `UserMessage`나 `Prompt` 생성자가 필요 없습니다.
+#### ChatClient 패턴 (권장)
+```kotlin
+// 1. ChatClient로 직접 호출
+val result = chatClient.prompt()
+    .user { u -> u.text("안녕하세요 {name}님!").param("name", "홍길동") }
+    .call()
+    .content() ?: "응답 없음"
+```
 
-### 8.3 다음 학습 내용
+> 💡 **권장**: 신규 프로젝트에서는 **ChatClient**를 사용하세요. 더 간결하고 읽기 쉬운 코드를 작성할 수 있습니다.
 
-이제 기본 PromptTemplate 사용법을 배웠으니, 다음 장에서는:
+### 10.4 다음 학습 내용
+
+이제 기본 PromptTemplate과 ChatClient 사용법을 배웠으니, 다음 장에서는:
 - **고급 PromptTemplate 기능**: 복잡한 템플릿 구조
 - **템플릿 파일 관리**: 외부 파일에서 템플릿 로드
 - **프롬프트 엔지니어링 기법**: 더 나은 응답을 위한 프롬프트 작성
@@ -701,6 +1252,7 @@ val result = response.results.firstOrNull()?.output?.text ?: "응답 없음"
 ## 📚 참고 자료
 
 - [Spring AI PromptTemplate 공식 문서](https://docs.spring.io/spring-ai/reference/api/prompt.html)
+- [Spring AI ChatClient 공식 문서](https://docs.spring.io/spring-ai/reference/api/chatclient.html)
 - [프롬프트 엔지니어링 가이드](https://platform.openai.com/docs/guides/prompt-engineering)
 
 ---
@@ -711,9 +1263,9 @@ val result = response.results.firstOrNull()?.output?.text ?: "응답 없음"
 
 1. PromptTemplate을 사용하는 이유는 무엇인가요?
 2. .create() 메서드는 어떤 역할을 하나요?
-3. 여러 변수를 포함한 템플릿을 만드는 방법은?
-4. 템플릿에 변수가 제공되지 않으면 어떻게 되나요?
-5. 실제 프로젝트에서 PromptTemplate을 어떻게 활용할 수 있나요?
+3. ChatClient와 ChatModel의 주요 차이점은 무엇인가요?
+4. ChatClient에서 변수를 바인딩하는 방법은?
+5. 신규 프로젝트에서 어떤 방식을 사용하는 것이 권장되나요?
 
 ---
 

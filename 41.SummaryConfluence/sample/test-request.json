@@ -1,0 +1,7 @@
+{
+  "pageId": "123456",
+  "startDate": "2024-01-01",
+  "endDate": "2024-12-31",
+  "includeChildren": true,
+  "maxDepth": 3
+}

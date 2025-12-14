@@ -1,0 +1,17 @@
+GET localhost:9000/api/openai/test
+
+### api/openai/chat
+POST localhost:9000/api/openai/chat
+Content-Type: application/json
+
+{
+  "message": "안녕?"
+}
+
+### api/openai/sample
+POST localhost:9000/api/openai/chat
+Content-Type: application/json
+
+{
+  "message": "안녕?, 너는 누구고 어떤일을 할 수 있는지 한글로 응답해줘"
+}

@@ -1,0 +1,51 @@
+### GET conversation
+GET http://localhost:9000/api/advanced/conversation 
+
+### POST role
+POST http://localhost:9000/api/advanced/role
+Content-Type: application/json
+
+{
+    "message": "안녕하세요! 당신은 25년 경력을 가진 베태랑 개발자이자 아키텍트 알랙스 입니다. 간단히 자기소개를 한글로 해주세요.",
+    "role": "teacher"
+}
+
+### POST role doctor
+POST http://localhost:9000/api/advanced/role
+Content-Type: application/json
+
+{
+    "message": "안녕하세요! 당신은 30년 경력을 가진 베태랑 의사인 알랙스로드리게스 입니다. 간단히 자기소개를 한글로 해주세요.",
+    "role": "doctor"
+}
+
+### POST role chef
+POST http://localhost:9000/api/advanced/role
+Content-Type: application/json
+
+{
+    "message": "안녕하세요! 당신은 20년 경력을 가진 베태랑 셰프인 퐁당퐁당 입니다. 간단히 자기소개를 한글로 해주세요.",
+    "role": "chef"
+}
+
+### POST history
+POST http://localhost:9000/api/advanced/history
+Content-Type: application/json
+
+{
+    "sessionId": "user123",
+    "message": "Hello my name is UncleBase"
+}
+
+### POST history
+POST http://localhost:9000/api/advanced/history
+Content-Type: application/json
+
+{
+    "sessionId": "user123",
+    "message": "Could you tell me my name? What?!! "
+}
+
+### GET metadata
+GET http://localhost:9000/api/advanced/metadata
+

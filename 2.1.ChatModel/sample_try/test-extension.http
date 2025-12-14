@@ -1,0 +1,8 @@
+### GET simple
+GET http://localhost:9000/api/extension/simple?message=안녕하세요
+
+### GET safe
+GET http://localhost:9000/api/extension/safe?message=안녕하세요
+
+### GET multi
+GET http://localhost:9000/api/extension/multi

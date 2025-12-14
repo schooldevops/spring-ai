@@ -1,0 +1,20 @@
+### Get Greeting
+GET http://localhost:9000/api/service/greet/홍길동
+
+### Post Ask
+POST http://localhost:9000/api/service/ask
+Content-Type: application/json
+
+{
+    "userName": "홍길동",
+    "question": "코틀린이 무엇인가요?",
+    "context": "코틀린은 자바를 기반으로 한 프로그래밍 언어입니다."
+}
+
+### Post Summarize
+POST http://localhost:9000/api/service/summarize
+Content-Type: application/json
+
+{
+    "content": "kotlin은 자바를 기반으로 한 프로그래밍 언어입니다."
+}

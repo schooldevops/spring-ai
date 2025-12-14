@@ -1,0 +1,25 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: confluence-summarizer
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: llama3.2
+          temperature: 0.7
+
+confluence:
+  base-url: ${CONFLUENCE_BASE_URL:}
+  username: ${CONFLUENCE_USERNAME:}
+  api-token: ${CONFLUENCE_API_TOKEN:}
+  # API 토큰은 https://id.atlassian.com/manage-profile/security/api-tokens 에서 생성
+  auth-type: bearer
+
+logging:
+  level:
+    com.example.confluence: DEBUG
+    org.springframework.ai: DEBUG
