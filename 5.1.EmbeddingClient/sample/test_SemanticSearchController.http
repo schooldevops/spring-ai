@@ -1,0 +1,134 @@
+### 1. 문서 추가 - Spring AI
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc1",
+  "text": "Spring AI는 Spring 프레임워크를 위한 AI 통합 라이브러리입니다. OpenAI, Ollama, Hugging Face 등 다양한 AI 제공자를 지원합니다."
+}
+
+###
+
+### 2. 문서 추가 - Spring Boot
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc2",
+  "text": "Spring Boot는 Java 기반 애플리케이션 프레임워크입니다. 자동 설정과 스타터 의존성을 통해 빠른 개발이 가능합니다."
+}
+
+###
+
+### 3. 문서 추가 - Kotlin
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc3",
+  "text": "Kotlin은 JetBrains에서 개발한 현대적인 프로그래밍 언어입니다. Java와 완벽하게 호환되며 간결한 문법을 제공합니다."
+}
+
+###
+
+### 4. 문서 추가 - Ollama
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc4",
+  "text": "Ollama는 로컬에서 대규모 언어 모델을 실행할 수 있는 도구입니다. 다양한 오픈소스 LLM을 지원하며 임베딩 모델도 제공합니다."
+}
+
+###
+
+### 5. 문서 추가 - 임베딩
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc5",
+  "text": "임베딩은 텍스트를 고차원 벡터로 변환하는 기술입니다. 의미적으로 유사한 텍스트는 벡터 공간에서 가까운 위치에 배치됩니다."
+}
+
+###
+
+### 6. 문서 추가 - 머신러닝
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc6",
+  "text": "머신러닝은 데이터로부터 패턴을 학습하는 인공지능 기술입니다. 지도학습, 비지도학습, 강화학습 등 다양한 방법론이 있습니다."
+}
+
+###
+
+### 7. 시맨틱 검색 - "프레임워크"
+POST http://localhost:9000/api/semantic-search/search
+Content-Type: application/json
+
+{
+  "query": "프레임워크",
+  "topK": 3
+}
+
+###
+
+### 8. 시맨틱 검색 - "AI 모델"
+POST http://localhost:9000/api/semantic-search/search
+Content-Type: application/json
+
+{
+  "query": "AI 모델",
+  "topK": 3
+}
+
+###
+
+### 9. 시맨틱 검색 - "프로그래밍 언어"
+POST http://localhost:9000/api/semantic-search/search
+Content-Type: application/json
+
+{
+  "query": "프로그래밍 언어",
+  "topK": 5
+}
+
+###
+
+### 10. 시맨틱 검색 - "벡터 변환"
+POST http://localhost:9000/api/semantic-search/search
+Content-Type: application/json
+
+{
+  "query": "벡터 변환",
+  "topK": 2
+}
+
+###
+
+### 11. 모든 문서 조회
+GET http://localhost:9000/api/semantic-search/documents
+
+###
+
+### 12. 특정 문서 삭제 (doc3)
+DELETE http://localhost:9000/api/semantic-search/remove/doc3
+
+###
+
+### 13. 삭제 후 문서 조회
+GET http://localhost:9000/api/semantic-search/documents
+
+###
+
+### 14. 모든 문서 삭제
+DELETE http://localhost:9000/api/semantic-search/clear
+
+###
+
+### 15. 삭제 후 빈 문서 확인
+GET http://localhost:9000/api/semantic-search/documents
+
+###

@@ -1,0 +1,31 @@
+### ListParserController 테스트
+
+### 1. 기본 리스트 파싱
+POST http://localhost:8080/api/list-parser/parse
+Content-Type: application/json
+
+{
+  "question": "5가지 프로그래밍 언어를 나열해주세요"
+}
+
+###
+
+### 2. CSV 형식 파싱 (쉼표 구분)
+POST http://localhost:8080/api/list-parser/csv
+Content-Type: application/json
+
+{
+  "question": "인기있는 프로그래밍 언어 5개를 쉼표로 구분해서 알려주세요"
+}
+
+###
+
+### 3. 안전한 리스트 파싱 (에러 처리 포함)
+POST http://localhost:8080/api/list-parser/safe
+Content-Type: application/json
+
+{
+  "question": "최신 웹 프레임워크 5개를 나열해주세요"
+}
+
+###

@@ -1,0 +1,32 @@
+### 1. 문서를 청크로 분할하고 임베딩 생성 (작은 청크)
+POST http://localhost:9000/api/document-embedding/embed-document
+Content-Type: application/json
+
+{
+  "text": "Spring AI는 Spring 프레임워크를 위한 AI 통합 라이브러리입니다. 이 라이브러리는 다양한 AI 모델과의 통합을 쉽게 만들어줍니다. OpenAI, Ollama, Hugging Face 등 여러 AI 제공자를 지원합니다.",
+  "chunkSize": 50
+}
+
+###
+
+### 2. 문서를 청크로 분할하고 임베딩 생성 (중간 청크)
+POST http://localhost:9000/api/document-embedding/embed-document
+Content-Type: application/json
+
+{
+  "text": "Kotlin은 JetBrains에서 개발한 현대적인 프로그래밍 언어입니다. Java와 완벽하게 호환되며, 간결하고 안전한 코드 작성이 가능합니다. Android 앱 개발의 공식 언어로 채택되었으며, 서버 사이드 개발에서도 널리 사용됩니다. Null 안전성, 확장 함수, 코루틴 등 다양한 현대적 기능을 제공합니다.",
+  "chunkSize": 100
+}
+
+###
+
+### 3. 긴 문서 임베딩 (큰 청크)
+POST http://localhost:9000/api/document-embedding/embed-document
+Content-Type: application/json
+
+{
+  "text": "임베딩(Embedding)은 텍스트를 고차원 벡터 공간으로 변환하는 기술입니다. 이를 통해 텍스트의 의미를 수치적으로 표현할 수 있습니다. 유사한 의미를 가진 텍스트는 벡터 공간에서 가까운 위치에 배치됩니다. 이러한 특성을 활용하여 시맨틱 검색, 문서 분류, 추천 시스템 등 다양한 AI 애플리케이션을 구축할 수 있습니다. Ollama의 nomic-embed-text 모델은 768차원의 임베딩 벡터를 생성합니다.",
+  "chunkSize": 200
+}
+
+###

@@ -1,0 +1,21 @@
+### ComplexParserController 테스트
+
+### 1. 리스트와 맵을 함께 파싱
+POST http://localhost:8080/api/complex-parser/combined
+Content-Type: application/json
+
+{
+  "question": "프로그래밍 패러다임 3가지를 나열하고, 각 패러다임의 특징을 Key-Value 형식으로 설명해주세요"
+}
+
+###
+
+### 2. 구조화된 카테고리별 데이터 파싱
+POST http://localhost:8080/api/complex-parser/structured
+Content-Type: application/json
+
+{
+  "question": "프론트엔드, 백엔드, 데이터베이스 카테고리별로 인기있는 기술 스택을 각각 3개씩 나열해주세요"
+}
+
+###

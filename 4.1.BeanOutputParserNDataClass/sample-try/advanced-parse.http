@@ -1,0 +1,107 @@
+### ========================================
+### Advanced Parser Controller Tests
+### ========================================
+
+### Test 1: Product 파싱 - 스마트폰 (기본 예제)
+POST http://localhost:9000/api/advanced-parser/product
+Content-Type: application/json
+
+{
+    "description": "스마트폰 제품입니다. 가격은 100만원입니다. 카메라, 배터리, 디스플레이 기능이 있습니다."
+}
+
+###
+
+### Test 2: Product 파싱 - 노트북 (상세 정보)
+POST http://localhost:9000/api/advanced-parser/product
+Content-Type: application/json
+
+{
+    "description": "MacBook Pro 16인치 노트북입니다. 가격은 350만원이며, M3 Pro 칩, 36GB 통합 메모리, 512GB SSD 스토리지, Liquid Retina XDR 디스플레이, 최대 22시간 배터리 수명, Touch ID, Force Touch 트랙패드 기능을 제공합니다."
+}
+
+###
+
+### Test 3: Product 파싱 - 가전제품
+POST http://localhost:9000/api/advanced-parser/product
+Content-Type: application/json
+
+{
+    "description": "삼성 비스포크 냉장고입니다. 가격은 250만원입니다. 양문형 디자인, 자동 제빙기, 스마트 온도 조절, 에너지 절약 모드, WiFi 연결 기능이 있습니다."
+}
+
+###
+
+### Test 4: Product 파싱 - 간단한 설명
+POST http://localhost:9000/api/advanced-parser/product
+Content-Type: application/json
+
+{
+    "description": "무선 이어폰, 15만원, 노이즈 캔슬링, 블루투스 5.0, 방수 기능"
+}
+
+###
+
+### Test 5: Product 파싱 - 의류
+POST http://localhost:9000/api/advanced-parser/product
+Content-Type: application/json
+
+{
+    "description": "나이키 에어맥스 운동화입니다. 가격은 18만원입니다. 에어 쿠셔닝, 통기성 메쉬, 내구성 있는 밑창, 가벼운 무게, 다양한 색상 옵션이 특징입니다."
+}
+
+###
+
+### ========================================
+### Company Info Tests (중첩 구조)
+### ========================================
+
+### Test 6: Company 파싱 - 기본 예제
+POST http://localhost:9000/api/advanced-parser/company
+Content-Type: application/json
+
+{
+    "question": "Spring Corp 회사 정보를 제공해주세요. 주소는 서울시 강남구 테헤란로 123번지, 우편번호 06234, 대한민국입니다. 직원 수는 100명입니다."
+}
+
+###
+
+### Test 7: Company 파싱 - 상세 정보
+POST http://localhost:9000/api/advanced-parser/company
+Content-Type: application/json
+
+{
+    "question": "Google Korea 회사 정보입니다. 주소는 서울시 강남구 역삼동 737번지, 우편번호 06141, 대한민국입니다. 직원 수는 500명이며, 개발팀, 마케팅팀, 영업팀, HR팀, 디자인팀 부서가 있습니다."
+}
+
+###
+
+### Test 8: Company 파싱 - 스타트업
+POST http://localhost:9000/api/advanced-parser/company
+Content-Type: application/json
+
+{
+    "question": "TechStart라는 스타트업 회사입니다. 판교 테크노밸리에 위치하며, 주소는 경기도 성남시 분당구 판교역로 235, 우편번호 13494, 대한민국입니다. 현재 직원은 25명이고, 개발부, 기획부, 운영부 세 개 부서로 구성되어 있습니다."
+}
+
+###
+
+### Test 9: Company 파싱 - 대기업
+POST http://localhost:9000/api/advanced-parser/company
+Content-Type: application/json
+
+{
+    "question": "삼성전자 서초사옥 정보를 알려주세요. 주소는 서울시 서초구 서초대로 74길 11, 우편번호 06620, 대한민국입니다. 직원 수는 약 3000명이며, R&D센터, 제조부, 품질관리부, 마케팅부, 영업부, 인사부, 재무부, IT지원부 등의 부서가 있습니다."
+}
+
+###
+
+### Test 10: Company 파싱 - 해외 지사
+POST http://localhost:9000/api/advanced-parser/company
+Content-Type: application/json
+
+{
+    "question": "Naver Japan 지사입니다. 주소는 Tokyo Shibuya-ku Sakuragaoka-cho 1-1, 우편번호 150-0031, Japan입니다. 직원 수는 150명이고, Engineering, Product, Business Development, Marketing 부서가 있습니다."
+}
+
+###

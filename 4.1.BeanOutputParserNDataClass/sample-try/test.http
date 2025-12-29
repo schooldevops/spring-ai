@@ -1,0 +1,58 @@
+### Test 1: 완전한 사용자 정보 (기본 예제)
+POST http://localhost:9000/api/basic-parser/user-info
+Content-Type: application/json
+
+{
+    "question": "사용자 정보를 제공해주세요. 이름은 홍길동, 나이는 30, 이메일은 hong@example.com입니다."
+}
+
+### GET Test
+GET http://localhost:9000/api/basic-parser/user-info
+
+
+### Test 2: 자연어에서 정보 추출
+POST http://localhost:9000/api/basic-parser/user-info
+Content-Type: application/json
+
+{
+    "question": "안녕하세요, 저는 김철수입니다. 25살이고 이메일은 kim@test.com 입니다.",
+    "mail": "kim@test.com"
+}
+
+### Test 3: 다른 사용자 정보
+POST http://localhost:9000/api/basic-parser/user-info
+Content-Type: application/json
+
+{
+    "question": "이영희, 28세, lee@example.com"
+}
+
+###
+
+### Test 4: 프로필 - 완전한 정보
+POST http://localhost:9000/api/basic-parser/profile
+Content-Type: application/json
+
+{
+    "question": "홍길동에 대한 프로필 정보를 제공해주세요. 나이는 30살, 이메일은 hong@example.com, 서울에 살고 있으며, 소프트웨어 개발자입니다."
+}
+
+###
+
+### Test 5: 프로필 - 부분 정보 (nullable 필드 테스트)
+POST http://localhost:9000/api/basic-parser/profile
+Content-Type: application/json
+
+{
+    "question": "이름은 이영희입니다."
+}
+
+###
+
+### Test 6: 프로필 - 이름과 위치만
+POST http://localhost:9000/api/basic-parser/profile
+Content-Type: application/json
+
+{
+    "question": "박민수는 부산에 살고 있습니다."
+}

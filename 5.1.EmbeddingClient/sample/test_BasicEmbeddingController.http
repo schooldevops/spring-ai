@@ -1,0 +1,28 @@
+### 1. 단일 텍스트 임베딩 생성
+POST http://localhost:9000/api/embedding/embed
+Content-Type: application/json
+
+{
+  "text": "Spring AI는 Spring 프레임워크를 위한 AI 통합 라이브러리입니다."
+}
+
+###
+
+### 2. 배치 임베딩 생성
+POST http://localhost:9000/api/embedding/embed-batch
+Content-Type: application/json
+
+{
+  "texts": [
+    "Spring Boot는 Java 기반 애플리케이션 프레임워크입니다.",
+    "Kotlin은 JetBrains에서 개발한 프로그래밍 언어입니다.",
+    "Ollama는 로컬에서 LLM을 실행할 수 있는 도구입니다."
+  ]
+}
+
+###
+
+### 3. 임베딩 정보 확인
+GET http://localhost:9000/api/embedding/info
+
+###

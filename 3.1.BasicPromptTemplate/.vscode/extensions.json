@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "fwcd.kotlin",
+    "vscjava.vscode-java-pack",
+    "vmware.vscode-spring-boot"
+  ],
+  "unwantedRecommendations": [
+    "mathiasfrohlich.kotlin"
+  ]
+}

@@ -1,0 +1,21 @@
+### MapParserController 테스트
+
+### 1. 기본 맵 파싱
+POST http://localhost:8080/api/map-parser/parse
+Content-Type: application/json
+
+{
+  "question": "프로그래밍 언어별 특징을 Key-Value 형식으로 제공해주세요"
+}
+
+###
+
+### 2. 안전한 맵 파싱 (에러 처리 포함)
+POST http://localhost:8080/api/map-parser/safe
+Content-Type: application/json
+
+{
+  "question": "인기있는 데이터베이스 3개와 각각의 주요 특징을 Key-Value 형식으로 알려주세요"
+}
+
+###

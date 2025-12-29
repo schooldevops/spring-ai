@@ -1,0 +1,49 @@
+### 1. 정상적인 텍스트 임베딩 (성공 케이스)
+POST http://localhost:9000/api/safe-embedding/embed
+Content-Type: application/json
+
+{
+  "text": "안전한 임베딩 생성 테스트입니다."
+}
+
+###
+
+### 2. 빈 텍스트 임베딩 (에러 처리 테스트)
+POST http://localhost:9000/api/safe-embedding/embed
+Content-Type: application/json
+
+{
+  "text": ""
+}
+
+###
+
+### 3. 긴 텍스트 임베딩
+POST http://localhost:9000/api/safe-embedding/embed
+Content-Type: application/json
+
+{
+  "text": "이것은 매우 긴 텍스트입니다. 임베딩 모델이 이 텍스트를 어떻게 처리하는지 확인하기 위한 테스트입니다. Spring AI는 다양한 AI 모델과의 통합을 제공하며, Ollama를 통해 로컬에서 임베딩을 생성할 수 있습니다."
+}
+
+###
+
+### 4. 특수 문자가 포함된 텍스트
+POST http://localhost:9000/api/safe-embedding/embed
+Content-Type: application/json
+
+{
+  "text": "특수문자 테스트: !@#$%^&*()_+-=[]{}|;:',.<>?/~`"
+}
+
+###
+
+### 5. 다국어 텍스트 (한글, 영어, 일본어)
+POST http://localhost:9000/api/safe-embedding/embed
+Content-Type: application/json
+
+{
+  "text": "안녕하세요 Hello こんにちは 你好"
+}
+
+###

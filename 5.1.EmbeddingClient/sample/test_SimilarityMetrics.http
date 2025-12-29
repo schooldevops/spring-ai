@@ -1,0 +1,288 @@
+### ========================================
+### 1. 테스트 데이터 준비 (문서 추가)
+### ========================================
+
+### 문서 1: Spring AI
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc1",
+  "text": "Spring AI는 Spring 프레임워크를 위한 AI 통합 라이브러리입니다. OpenAI, Ollama, Hugging Face 등 다양한 AI 제공자를 지원합니다."
+}
+
+###
+
+### 문서 2: Spring Boot
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc2",
+  "text": "Spring Boot는 Java 기반 애플리케이션 프레임워크입니다. 자동 설정과 스타터 의존성을 통해 빠른 개발이 가능합니다."
+}
+
+###
+
+### 문서 3: Kotlin
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc3",
+  "text": "Kotlin은 JetBrains에서 개발한 현대적인 프로그래밍 언어입니다. Java와 완벽하게 호환되며 간결한 문법을 제공합니다."
+}
+
+###
+
+### 문서 4: Ollama
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc4",
+  "text": "Ollama는 로컬에서 대규모 언어 모델을 실행할 수 있는 도구입니다. 다양한 오픈소스 LLM을 지원하며 임베딩 모델도 제공합니다."
+}
+
+###
+
+### 문서 5: 임베딩
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc5",
+  "text": "임베딩은 텍스트를 고차원 벡터로 변환하는 기술입니다. 의미적으로 유사한 텍스트는 벡터 공간에서 가까운 위치에 배치됩니다."
+}
+
+###
+
+### 문서 6: 머신러닝
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc6",
+  "text": "머신러닝은 데이터로부터 패턴을 학습하는 인공지능 기술입니다. 지도학습, 비지도학습, 강화학습 등 다양한 방법론이 있습니다."
+}
+
+###
+
+### 문서 7: 벡터 데이터베이스
+POST http://localhost:9000/api/semantic-search/add
+Content-Type: application/json
+
+{
+  "id": "doc7",
+  "text": "벡터 데이터베이스는 임베딩 벡터를 효율적으로 저장하고 검색하는 데이터베이스입니다. Pinecone, Weaviate, Milvus 등이 있습니다."
+}
+
+###
+
+### 추가된 문서 확인
+GET http://localhost:9000/api/semantic-search/documents
+
+###
+
+### ========================================
+### 2. 각 유사도 메트릭으로 개별 검색
+### ========================================
+
+### 검색 1: Cosine Similarity (코사인 유사도)
+POST http://localhost:9000/api/semantic-search/search
+Content-Type: application/json
+
+{
+  "query": "AI 프레임워크",
+  "topK": 5,
+  "metric": "COSINE"
+}
+
+###
+
+### 검색 2: Euclidean Distance (유클리디안 거리)
+POST http://localhost:9000/api/semantic-search/search
+Content-Type: application/json
+
+{
+  "query": "AI 프레임워크",
+  "topK": 5,
+  "metric": "EUCLIDEAN"
+}
+
+###
+
+### 검색 3: Dot Product (내적)
+POST http://localhost:9000/api/semantic-search/search
+Content-Type: application/json
+
+{
+  "query": "AI 프레임워크",
+  "topK": 5,
+  "metric": "DOT_PRODUCT"
+}
+
+###
+
+### 검색 4: Manhattan Distance (맨해튼 거리)
+POST http://localhost:9000/api/semantic-search/search
+Content-Type: application/json
+
+{
+  "query": "AI 프레임워크",
+  "topK": 5,
+  "metric": "MANHATTAN"
+}
+
+###
+
+### ========================================
+### 3. 다양한 쿼리로 메트릭 비교
+### ========================================
+
+### 비교 1: "벡터 변환" 쿼리로 모든 메트릭 비교
+POST http://localhost:9000/api/semantic-search/compare-metrics
+Content-Type: application/json
+
+{
+  "query": "벡터 변환",
+  "topK": 3
+}
+
+###
+
+### 비교 2: "프로그래밍 언어" 쿼리로 모든 메트릭 비교
+POST http://localhost:9000/api/semantic-search/compare-metrics
+Content-Type: application/json
+
+{
+  "query": "프로그래밍 언어",
+  "topK": 3
+}
+
+###
+
+### 비교 3: "로컬 AI 모델" 쿼리로 모든 메트릭 비교
+POST http://localhost:9000/api/semantic-search/compare-metrics
+Content-Type: application/json
+
+{
+  "query": "로컬 AI 모델",
+  "topK": 3
+}
+
+###
+
+### 비교 4: "데이터 저장" 쿼리로 모든 메트릭 비교
+POST http://localhost:9000/api/semantic-search/compare-metrics
+Content-Type: application/json
+
+{
+  "query": "데이터 저장",
+  "topK": 3
+}
+
+###
+
+### ========================================
+### 4. 엣지 케이스 테스트
+### ========================================
+
+### 엣지 케이스 1: 매우 짧은 쿼리
+POST http://localhost:9000/api/semantic-search/compare-metrics
+Content-Type: application/json
+
+{
+  "query": "AI",
+  "topK": 3
+}
+
+###
+
+### 엣지 케이스 2: 매우 긴 쿼리
+POST http://localhost:9000/api/semantic-search/compare-metrics
+Content-Type: application/json
+
+{
+  "query": "인공지능과 머신러닝을 활용한 현대적인 애플리케이션 개발을 위한 프레임워크와 도구들에 대해 알고 싶습니다",
+  "topK": 3
+}
+
+###
+
+### 엣지 케이스 3: 영어 쿼리
+POST http://localhost:9000/api/semantic-search/compare-metrics
+Content-Type: application/json
+
+{
+  "query": "machine learning framework",
+  "topK": 3
+}
+
+###
+
+### ========================================
+### 5. 특정 메트릭으로 상세 검색
+### ========================================
+
+### Cosine으로 "Spring" 검색
+POST http://localhost:9000/api/semantic-search/search
+Content-Type: application/json
+
+{
+  "query": "Spring",
+  "topK": 7,
+  "metric": "COSINE"
+}
+
+###
+
+### Euclidean으로 "Spring" 검색
+POST http://localhost:9000/api/semantic-search/search
+Content-Type: application/json
+
+{
+  "query": "Spring",
+  "topK": 7,
+  "metric": "EUCLIDEAN"
+}
+
+###
+
+### Dot Product로 "Spring" 검색
+POST http://localhost:9000/api/semantic-search/search
+Content-Type: application/json
+
+{
+  "query": "Spring",
+  "topK": 7,
+  "metric": "DOT_PRODUCT"
+}
+
+###
+
+### Manhattan으로 "Spring" 검색
+POST http://localhost:9000/api/semantic-search/search
+Content-Type: application/json
+
+{
+  "query": "Spring",
+  "topK": 7,
+  "metric": "MANHATTAN"
+}
+
+###
+
+### ========================================
+### 6. 정리 (선택사항)
+### ========================================
+
+### 모든 문서 삭제
+DELETE http://localhost:9000/api/semantic-search/clear
+
+###
+
+### 삭제 확인
+GET http://localhost:9000/api/semantic-search/documents
+
+###
