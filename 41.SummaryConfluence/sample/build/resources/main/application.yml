@@ -13,9 +13,9 @@ spring:
           temperature: 0.7
 
 confluence:
-  base-url: ${CONFLUENCE_BASE_URL:https://confluence.tde.sktelecom.com/wiki/rest/api}
-  username: ${CONFLUENCE_USERNAME:kido.bae@sk.com}
-  api-token: ${CONFLUENCE_API_TOKEN:momv6e79h0c63g22up62t8u0051rcrge489hie186dms34ssulllocs}
+  base-url: ${CONFLUENCE_BASE_URL:}
+  username: ${CONFLUENCE_USERNAME:}
+  api-token: ${CONFLUENCE_API_TOKEN:}
   # API 토큰은 https://id.atlassian.com/manage-profile/security/api-tokens 에서 생성
   auth-type: bearer
 
