@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.3.0"
-    id("io.spring.dependency-management") version "1.1.5"
-    kotlin("jvm") version "1.9.24"
-    kotlin("plugin.spring") version "1.9.24"
+    id("org.springframework.boot") version "3.5.9"
+    id("io.spring.dependency-management") version "1.1.7"
+    kotlin("jvm") version "1.9.25"
+    kotlin("plugin.spring") version "1.9.25"
 }
 
 group = "com.example"
@@ -12,7 +12,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -25,8 +25,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     
     // Spring AI OpenAI
-    implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-M6")
+    // implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-M6")
     
+    // Spring AI OpenAI (OpenAI 사용 시)
+    // implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-M6")
+    implementation("org.springframework.ai:spring-ai-ollama-spring-boot-starter:1.0.0-M6")
+
+
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -42,7 +47,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 }
 

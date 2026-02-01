@@ -1,0 +1,187 @@
+### 1. 중복 검사 - 높은 임계값 (0.95)
+POST http://localhost:9000/api/similarity/advanced/duplicates
+Content-Type: application/json
+
+{
+  "texts": [
+    "Spring AI는 Spring 프레임워크를 위한 AI 통합 라이브러리입니다.",
+    "Spring AI는 Spring 프레임워크를 위한 인공지능 통합 라이브러리입니다.",
+    "Django는 Python 웹 프레임워크입니다.",
+    "Spring Boot는 Java 애플리케이션 프레임워크입니다.",
+    "Spring AI는 Spring 기반의 AI 라이브러리입니다."
+  ],
+  "threshold": 0.95
+}
+
+###
+
+### 2. 중복 검사 - 중간 임계값 (0.85)
+POST http://localhost:9000/api/similarity/advanced/duplicates
+Content-Type: application/json
+
+{
+  "texts": [
+    "머신러닝은 데이터로부터 패턴을 학습하는 기술입니다.",
+    "머신러닝은 데이터에서 패턴을 찾는 AI 기술입니다.",
+    "딥러닝은 신경망 기반의 머신러닝 방법입니다.",
+    "딥러닝은 인공 신경망을 사용하는 머신러닝입니다.",
+    "자연어 처리는 텍스트를 이해하는 기술입니다.",
+    "컴퓨터 비전은 이미지를 분석하는 기술입니다."
+  ],
+  "threshold": 0.85
+}
+
+###
+
+### 3. 중복 검사 - 낮은 임계값 (0.7)
+POST http://localhost:9000/api/similarity/advanced/duplicates
+Content-Type: application/json
+
+{
+  "texts": [
+    "Kotlin은 프로그래밍 언어입니다.",
+    "Java는 프로그래밍 언어입니다.",
+    "Python은 프로그래밍 언어입니다.",
+    "JavaScript는 프로그래밍 언어입니다.",
+    "TypeScript는 프로그래밍 언어입니다."
+  ],
+  "threshold": 0.7
+}
+
+###
+
+### 4. 중복 검사 - 중복 없음
+POST http://localhost:9000/api/similarity/advanced/duplicates
+Content-Type: application/json
+
+{
+  "texts": [
+    "Spring Boot는 Java 프레임워크입니다.",
+    "MongoDB는 NoSQL 데이터베이스입니다.",
+    "Docker는 컨테이너 플랫폼입니다.",
+    "Kubernetes는 오케스트레이션 도구입니다.",
+    "Git은 버전 관리 시스템입니다."
+  ],
+  "threshold": 0.9
+}
+
+###
+
+### 5. 중복 검사 - 많은 텍스트
+POST http://localhost:9000/api/similarity/advanced/duplicates
+Content-Type: application/json
+
+{
+  "texts": [
+    "Spring Framework는 Java 애플리케이션 개발 프레임워크입니다.",
+    "Spring Boot는 Spring 기반 애플리케이션 프레임워크입니다.",
+    "Spring Framework는 Java 엔터프라이즈 개발을 위한 프레임워크입니다.",
+    "Spring AI는 AI 통합 라이브러리입니다.",
+    "Spring Cloud는 분산 시스템 개발 프레임워크입니다.",
+    "Spring Boot는 Spring 프레임워크 기반의 애플리케이션 개발 도구입니다.",
+    "Django는 Python 웹 프레임워크입니다.",
+    "Express는 Node.js 웹 프레임워크입니다."
+  ],
+  "threshold": 0.88
+}
+
+###
+
+### ========================================
+### 클러스터링 테스트
+### ========================================
+
+### 6. 클러스터링 - 프로그래밍 언어 (유사도 0.7)
+POST http://localhost:9000/api/similarity/advanced/cluster
+Content-Type: application/json
+
+{
+  "texts": [
+    "Kotlin은 JVM 기반 프로그래밍 언어입니다.",
+    "Java는 JVM에서 실행되는 언어입니다.",
+    "Scala는 JVM 기반 함수형 언어입니다.",
+    "Python은 인터프리터 언어입니다.",
+    "JavaScript는 웹 개발 언어입니다.",
+    "TypeScript는 JavaScript의 상위 집합입니다."
+  ],
+  "similarityThreshold": 0.7
+}
+
+###
+
+### 7. 클러스터링 - 기술 스택 (유사도 0.65)
+POST http://localhost:9000/api/similarity/advanced/cluster
+Content-Type: application/json
+
+{
+  "texts": [
+    "Spring Boot는 Java 웹 프레임워크입니다.",
+    "Spring Framework는 Java 애플리케이션 프레임워크입니다.",
+    "Spring AI는 AI 통합 라이브러리입니다.",
+    "Django는 Python 웹 프레임워크입니다.",
+    "Flask는 Python 마이크로 프레임워크입니다.",
+    "Express는 Node.js 웹 프레임워크입니다.",
+    "MongoDB는 NoSQL 데이터베이스입니다.",
+    "PostgreSQL은 관계형 데이터베이스입니다.",
+    "Redis는 인메모리 저장소입니다."
+  ],
+  "similarityThreshold": 0.65
+}
+
+###
+
+### 8. 클러스터링 - AI 기술 (유사도 0.6)
+POST http://localhost:9000/api/similarity/advanced/cluster
+Content-Type: application/json
+
+{
+  "texts": [
+    "머신러닝은 데이터로부터 학습합니다.",
+    "딥러닝은 신경망 기반 학습입니다.",
+    "강화학습은 보상 기반 학습입니다.",
+    "지도학습은 레이블된 데이터로 학습합니다.",
+    "비지도학습은 레이블 없이 학습합니다.",
+    "자연어 처리는 텍스트를 이해합니다.",
+    "컴퓨터 비전은 이미지를 분석합니다.",
+    "음성 인식은 음성을 텍스트로 변환합니다."
+  ],
+  "similarityThreshold": 0.6
+}
+
+###
+
+### 9. 클러스터링 - 높은 임계값 (0.8)
+POST http://localhost:9000/api/similarity/advanced/cluster
+Content-Type: application/json
+
+{
+  "texts": [
+    "Spring AI는 Spring 프레임워크의 AI 라이브러리입니다.",
+    "Spring AI는 Spring 기반 인공지능 통합 도구입니다.",
+    "Spring Boot는 Spring 애플리케이션 프레임워크입니다.",
+    "Django는 Python 웹 프레임워크입니다.",
+    "머신러닝은 AI의 한 분야입니다.",
+    "딥러닝은 머신러닝의 한 방법입니다."
+  ],
+  "similarityThreshold": 0.8
+}
+
+###
+
+### 10. 클러스터링 - 낮은 임계값 (0.5)
+POST http://localhost:9000/api/similarity/advanced/cluster
+Content-Type: application/json
+
+{
+  "texts": [
+    "웹 개발은 웹사이트를 만드는 작업입니다.",
+    "모바일 앱 개발은 스마트폰 앱을 만듭니다.",
+    "데이터베이스는 데이터를 저장합니다.",
+    "클라우드는 인터넷 기반 컴퓨팅입니다.",
+    "DevOps는 개발과 운영을 통합합니다.",
+    "보안은 시스템을 보호합니다."
+  ],
+  "similarityThreshold": 0.5
+}
+
+###

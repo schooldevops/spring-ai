@@ -1,0 +1,108 @@
+### 1. Pairwise 유사도 - 프로그래밍 언어
+POST http://localhost:9000/api/similarity/pairwise/calculate
+Content-Type: application/json
+
+{
+  "texts": [
+    "Kotlin은 JetBrains에서 개발한 프로그래밍 언어입니다.",
+    "Java는 객체지향 프로그래밍 언어입니다.",
+    "Scala는 JVM 기반의 함수형 프로그래밍 언어입니다.",
+    "Groovy는 동적 타이핑을 지원하는 JVM 언어입니다."
+  ]
+}
+
+###
+
+### 2. Pairwise 유사도 - AI 기술
+POST http://localhost:9000/api/similarity/pairwise/calculate
+Content-Type: application/json
+
+{
+  "texts": [
+    "머신러닝은 데이터로부터 패턴을 학습합니다.",
+    "딥러닝은 신경망을 사용하는 머신러닝입니다.",
+    "자연어 처리는 텍스트를 이해하는 기술입니다.",
+    "컴퓨터 비전은 이미지를 분석하는 기술입니다.",
+    "강화학습은 보상을 통해 학습합니다."
+  ]
+}
+
+###
+
+### 3. Pairwise 유사도 - 데이터베이스
+POST http://localhost:9000/api/similarity/pairwise/calculate
+Content-Type: application/json
+
+{
+  "texts": [
+    "MongoDB는 문서 기반 NoSQL 데이터베이스입니다.",
+    "PostgreSQL은 강력한 관계형 데이터베이스입니다.",
+    "Redis는 인메모리 키-값 저장소입니다.",
+    "Cassandra는 분산 NoSQL 데이터베이스입니다.",
+    "MySQL은 널리 사용되는 관계형 데이터베이스입니다.",
+    "Elasticsearch는 검색 및 분석 엔진입니다."
+  ]
+}
+
+###
+
+### 4. Pairwise 유사도 - 웹 프레임워크
+POST http://localhost:9000/api/similarity/pairwise/calculate
+Content-Type: application/json
+
+{
+  "texts": [
+    "Spring Boot는 Java 웹 프레임워크입니다.",
+    "Django는 Python 웹 프레임워크입니다.",
+    "Express는 Node.js 웹 프레임워크입니다."
+  ]
+}
+
+###
+
+### 5. Pairwise 유사도 - 짧은 텍스트
+POST http://localhost:9000/api/similarity/pairwise/calculate
+Content-Type: application/json
+
+{
+  "texts": [
+    "AI",
+    "인공지능",
+    "머신러닝",
+    "딥러닝"
+  ]
+}
+
+###
+
+### 6. Pairwise 유사도 - 다양한 주제
+POST http://localhost:9000/api/similarity/pairwise/calculate
+Content-Type: application/json
+
+{
+  "texts": [
+    "Spring AI는 AI 통합 라이브러리입니다.",
+    "Kotlin은 프로그래밍 언어입니다.",
+    "MongoDB는 NoSQL 데이터베이스입니다.",
+    "Docker는 컨테이너 플랫폼입니다.",
+    "Kubernetes는 컨테이너 오케스트레이션 도구입니다.",
+    "Git은 버전 관리 시스템입니다."
+  ]
+}
+
+###
+
+### 7. Pairwise 유사도 - 유사한 텍스트들
+POST http://localhost:9000/api/similarity/pairwise/calculate
+Content-Type: application/json
+
+{
+  "texts": [
+    "Spring Framework는 Java 애플리케이션 개발 프레임워크입니다.",
+    "Spring Boot는 Spring 기반의 애플리케이션 프레임워크입니다.",
+    "Spring AI는 Spring 생태계의 AI 통합 라이브러리입니다.",
+    "Spring Cloud는 분산 시스템 개발을 위한 Spring 프로젝트입니다."
+  ]
+}
+
+###

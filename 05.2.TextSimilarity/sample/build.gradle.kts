@@ -24,8 +24,8 @@ dependencies {
     // Spring Boot Web
     implementation("org.springframework.boot:spring-boot-starter-web")
     
-    // Spring AI OpenAI
-    implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-M6")
+    // Spring AI Ollama
+    implementation("org.springframework.ai:spring-ai-ollama-spring-boot-starter:1.0.0-M6")
     
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")

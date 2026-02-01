@@ -1,0 +1,76 @@
+### 1. 기본 유사도 계산 - 유사한 텍스트
+POST http://localhost:9000/api/similarity/calculate
+Content-Type: application/json
+
+{
+  "text1": "Spring AI는 Spring 프레임워크를 위한 AI 통합 라이브러리입니다.",
+  "text2": "Spring AI는 Spring 기반의 인공지능 통합 라이브러리입니다."
+}
+
+###
+
+### 2. 기본 유사도 계산 - 약간 다른 텍스트
+POST http://localhost:9000/api/similarity/calculate
+Content-Type: application/json
+
+{
+  "text1": "Spring Boot는 Java 애플리케이션 프레임워크입니다.",
+  "text2": "Spring AI는 AI 통합 라이브러리입니다."
+}
+
+###
+
+### 3. 기본 유사도 계산 - 완전히 다른 텍스트
+POST http://localhost:9000/api/similarity/calculate
+Content-Type: application/json
+
+{
+  "text1": "오늘 날씨가 정말 좋습니다.",
+  "text2": "프로그래밍은 재미있는 활동입니다."
+}
+
+###
+
+### 4. 기본 유사도 계산 - 동일한 텍스트
+POST http://localhost:9000/api/similarity/calculate
+Content-Type: application/json
+
+{
+  "text1": "Kotlin은 현대적인 프로그래밍 언어입니다.",
+  "text2": "Kotlin은 현대적인 프로그래밍 언어입니다."
+}
+
+###
+
+### 5. 기본 유사도 계산 - 영어 텍스트
+POST http://localhost:9000/api/similarity/calculate
+Content-Type: application/json
+
+{
+  "text1": "Machine learning is a subset of artificial intelligence.",
+  "text2": "AI includes machine learning as one of its components."
+}
+
+###
+
+### 6. 기본 유사도 계산 - 짧은 텍스트
+POST http://localhost:9000/api/similarity/calculate
+Content-Type: application/json
+
+{
+  "text1": "AI",
+  "text2": "인공지능"
+}
+
+###
+
+### 7. 기본 유사도 계산 - 긴 텍스트
+POST http://localhost:9000/api/similarity/calculate
+Content-Type: application/json
+
+{
+  "text1": "Spring AI는 Spring 프레임워크를 위한 포괄적인 AI 통합 라이브러리로, OpenAI, Ollama, Hugging Face 등 다양한 AI 제공자를 지원하며, 개발자가 쉽게 AI 기능을 애플리케이션에 통합할 수 있도록 도와줍니다.",
+  "text2": "Spring AI 라이브러리는 Spring 생태계에서 인공지능 기능을 통합하기 위한 도구이며, 여러 AI 서비스 제공자와의 연동을 간편하게 만들어주는 프레임워크입니다."
+}
+
+###

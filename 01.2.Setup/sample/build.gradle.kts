@@ -25,7 +25,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     
     // Spring AI OpenAI (OpenAI 사용 시)
-    implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-M6")
+    // implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-M6")
+    implementation("org.springframework.ai:spring-ai-ollama-spring-boot-starter:1.0.0-M6")
     
     // Spring AI Anthropic (Claude 사용 시) - 필요시 주석 해제
     // implementation("org.springframework.ai:spring-ai-anthropic-spring-boot-starter:1.0.0")

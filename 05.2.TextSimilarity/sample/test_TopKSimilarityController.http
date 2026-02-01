@@ -1,0 +1,145 @@
+### 1. Top-K 검색 - K=3
+POST http://localhost:9000/api/similarity/topk/find
+Content-Type: application/json
+
+{
+  "query": "Spring 프레임워크",
+  "texts": [
+    "Spring Boot는 Spring 기반 애플리케이션 프레임워크입니다.",
+    "Spring Framework는 Java 엔터프라이즈 개발 프레임워크입니다.",
+    "Spring AI는 Spring 생태계의 AI 라이브러리입니다.",
+    "Spring Cloud는 분산 시스템 개발 프레임워크입니다.",
+    "Django는 Python 웹 프레임워크입니다.",
+    "Express는 Node.js 웹 프레임워크입니다.",
+    "React는 JavaScript UI 라이브러리입니다.",
+    "Vue.js는 프론트엔드 프레임워크입니다."
+  ],
+  "topK": 3
+}
+
+###
+
+### 2. Top-K 검색 - K=5
+POST http://localhost:9000/api/similarity/topk/find
+Content-Type: application/json
+
+{
+  "query": "머신러닝",
+  "texts": [
+    "머신러닝은 데이터로부터 패턴을 학습합니다.",
+    "딥러닝은 신경망 기반 머신러닝입니다.",
+    "강화학습은 보상 기반 학습 방법입니다.",
+    "지도학습은 레이블된 데이터로 학습합니다.",
+    "비지도학습은 레이블 없이 학습합니다.",
+    "자연어 처리는 텍스트를 이해하는 기술입니다.",
+    "컴퓨터 비전은 이미지를 분석합니다.",
+    "데이터 마이닝은 데이터에서 패턴을 찾습니다.",
+    "빅데이터는 대용량 데이터를 다룹니다.",
+    "데이터 과학은 데이터 분석 분야입니다."
+  ],
+  "topK": 5
+}
+
+###
+
+### 3. Top-K 검색 - K=1 (가장 유사한 것만)
+POST http://localhost:9000/api/similarity/topk/find
+Content-Type: application/json
+
+{
+  "query": "Kotlin 프로그래밍",
+  "texts": [
+    "Kotlin은 JetBrains에서 개발한 프로그래밍 언어입니다.",
+    "Java는 객체지향 프로그래밍 언어입니다.",
+    "Python은 다목적 프로그래밍 언어입니다.",
+    "JavaScript는 웹 개발 언어입니다.",
+    "TypeScript는 JavaScript의 상위 집합입니다.",
+    "Scala는 JVM 기반 함수형 언어입니다."
+  ],
+  "topK": 1
+}
+
+###
+
+### 4. Top-K 검색 - K=10 (많은 결과)
+POST http://localhost:9000/api/similarity/topk/find
+Content-Type: application/json
+
+{
+  "query": "웹 개발 프레임워크",
+  "texts": [
+    "Spring Boot는 Java 웹 프레임워크입니다.",
+    "Django는 Python 웹 프레임워크입니다.",
+    "Express는 Node.js 웹 프레임워크입니다.",
+    "Ruby on Rails는 Ruby 웹 프레임워크입니다.",
+    "Laravel은 PHP 웹 프레임워크입니다.",
+    "ASP.NET은 Microsoft 웹 프레임워크입니다.",
+    "Flask는 경량 Python 웹 프레임워크입니다.",
+    "FastAPI는 현대적인 Python 웹 프레임워크입니다.",
+    "Next.js는 React 기반 웹 프레임워크입니다.",
+    "Nuxt.js는 Vue.js 기반 웹 프레임워크입니다.",
+    "Svelte는 컴파일 기반 프론트엔드 프레임워크입니다.",
+    "Angular는 TypeScript 기반 웹 프레임워크입니다."
+  ],
+  "topK": 10
+}
+
+###
+
+### 5. Top-K 검색 - 데이터베이스
+POST http://localhost:9000/api/similarity/topk/find
+Content-Type: application/json
+
+{
+  "query": "NoSQL 데이터베이스",
+  "texts": [
+    "MongoDB는 문서 기반 NoSQL 데이터베이스입니다.",
+    "Cassandra는 분산 NoSQL 데이터베이스입니다.",
+    "Redis는 인메모리 NoSQL 저장소입니다.",
+    "CouchDB는 문서 지향 NoSQL 데이터베이스입니다.",
+    "PostgreSQL은 관계형 데이터베이스입니다.",
+    "MySQL은 오픈소스 관계형 데이터베이스입니다.",
+    "Oracle은 상용 관계형 데이터베이스입니다.",
+    "Elasticsearch는 검색 및 분석 엔진입니다."
+  ],
+  "topK": 4
+}
+
+###
+
+### 6. Top-K 검색 - AI 기술
+POST http://localhost:9000/api/similarity/topk/find
+Content-Type: application/json
+
+{
+  "query": "자연어 처리",
+  "texts": [
+    "자연어 처리는 텍스트를 이해하는 AI 기술입니다.",
+    "NLP는 자연어 처리의 약자입니다.",
+    "텍스트 마이닝은 텍스트 데이터를 분석합니다.",
+    "감성 분석은 텍스트의 감정을 파악합니다.",
+    "기계 번역은 언어를 자동으로 번역합니다.",
+    "컴퓨터 비전은 이미지를 분석합니다.",
+    "음성 인식은 음성을 텍스트로 변환합니다.",
+    "챗봇은 대화형 AI 시스템입니다."
+  ],
+  "topK": 5
+}
+
+###
+
+### 7. Top-K 검색 - K가 텍스트 수보다 큼
+POST http://localhost:9000/api/similarity/topk/find
+Content-Type: application/json
+
+{
+  "query": "컨테이너 기술",
+  "texts": [
+    "Docker는 컨테이너 플랫폼입니다.",
+    "Kubernetes는 컨테이너 오케스트레이션 도구입니다.",
+    "Podman은 Docker 대체 컨테이너 도구입니다."
+  ],
+  "topK": 10
+}
+
+###

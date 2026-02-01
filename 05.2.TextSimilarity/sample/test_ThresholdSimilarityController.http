@@ -1,0 +1,132 @@
+### 1. 임계값 필터링 - 높은 임계값 (0.8)
+POST http://localhost:9000/api/similarity/threshold/filter
+Content-Type: application/json
+
+{
+  "query": "Spring 프레임워크",
+  "texts": [
+    "Spring Boot는 Spring 기반 애플리케이션 프레임워크입니다.",
+    "Spring Framework는 Java 엔터프라이즈 개발 프레임워크입니다.",
+    "Spring AI는 Spring 생태계의 AI 라이브러리입니다.",
+    "Django는 Python 웹 프레임워크입니다.",
+    "Express는 Node.js 웹 프레임워크입니다.",
+    "React는 JavaScript UI 라이브러리입니다."
+  ],
+  "threshold": 0.8
+}
+
+###
+
+### 2. 임계값 필터링 - 중간 임계값 (0.6)
+POST http://localhost:9000/api/similarity/threshold/filter
+Content-Type: application/json
+
+{
+  "query": "머신러닝 알고리즘",
+  "texts": [
+    "머신러닝은 데이터로부터 패턴을 학습하는 기술입니다.",
+    "딥러닝은 신경망 기반의 머신러닝 방법입니다.",
+    "의사결정 트리는 분류 알고리즘입니다.",
+    "랜덤 포레스트는 앙상블 학습 알고리즘입니다.",
+    "SVM은 서포트 벡터 머신 알고리즘입니다.",
+    "데이터베이스는 데이터를 저장하는 시스템입니다.",
+    "웹 개발은 웹사이트를 만드는 작업입니다."
+  ],
+  "threshold": 0.6
+}
+
+###
+
+### 3. 임계값 필터링 - 낮은 임계값 (0.4)
+POST http://localhost:9000/api/similarity/threshold/filter
+Content-Type: application/json
+
+{
+  "query": "프로그래밍",
+  "texts": [
+    "Kotlin은 프로그래밍 언어입니다.",
+    "Java는 객체지향 언어입니다.",
+    "Python은 다목적 언어입니다.",
+    "데이터베이스는 데이터 저장소입니다.",
+    "Docker는 컨테이너 플랫폼입니다.",
+    "Git은 버전 관리 도구입니다."
+  ],
+  "threshold": 0.4
+}
+
+###
+
+### 4. 임계값 필터링 - 매우 높은 임계값 (0.95)
+POST http://localhost:9000/api/similarity/threshold/filter
+Content-Type: application/json
+
+{
+  "query": "인공지능",
+  "texts": [
+    "인공지능은 기계가 인간처럼 사고하는 기술입니다.",
+    "AI는 인공지능의 약자입니다.",
+    "머신러닝은 AI의 한 분야입니다.",
+    "딥러닝은 머신러닝의 한 방법입니다.",
+    "자연어 처리는 AI 응용 분야입니다."
+  ],
+  "threshold": 0.95
+}
+
+###
+
+### 5. 임계값 필터링 - 데이터베이스 관련
+POST http://localhost:9000/api/similarity/threshold/filter
+Content-Type: application/json
+
+{
+  "query": "NoSQL 데이터베이스",
+  "texts": [
+    "MongoDB는 문서 기반 NoSQL 데이터베이스입니다.",
+    "Cassandra는 분산 NoSQL 데이터베이스입니다.",
+    "Redis는 인메모리 NoSQL 저장소입니다.",
+    "PostgreSQL은 관계형 데이터베이스입니다.",
+    "MySQL은 SQL 데이터베이스입니다.",
+    "Elasticsearch는 검색 엔진입니다.",
+    "Spring Boot는 Java 프레임워크입니다."
+  ],
+  "threshold": 0.7
+}
+
+###
+
+### 6. 임계값 필터링 - 모든 텍스트 필터링 (임계값 0.3)
+POST http://localhost:9000/api/similarity/threshold/filter
+Content-Type: application/json
+
+{
+  "query": "웹 개발",
+  "texts": [
+    "HTML은 웹 페이지 구조를 정의합니다.",
+    "CSS는 웹 페이지 스타일을 지정합니다.",
+    "JavaScript는 웹 페이지에 동적 기능을 추가합니다.",
+    "React는 웹 UI 라이브러리입니다.",
+    "Vue.js는 프론트엔드 프레임워크입니다.",
+    "Node.js는 서버사이드 JavaScript 런타임입니다.",
+    "Express는 Node.js 웹 프레임워크입니다."
+  ],
+  "threshold": 0.3
+}
+
+###
+
+### 7. 임계값 필터링 - 필터링 결과 없음 (임계값 0.99)
+POST http://localhost:9000/api/similarity/threshold/filter
+Content-Type: application/json
+
+{
+  "query": "Spring Boot",
+  "texts": [
+    "Django는 Python 프레임워크입니다.",
+    "Express는 Node.js 프레임워크입니다.",
+    "Laravel은 PHP 프레임워크입니다.",
+    "Ruby on Rails는 Ruby 프레임워크입니다."
+  ],
+  "threshold": 0.99
+}
+
+###
