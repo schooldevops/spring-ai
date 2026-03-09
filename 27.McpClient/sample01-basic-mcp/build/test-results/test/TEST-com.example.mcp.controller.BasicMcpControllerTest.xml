@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.mcp.controller.BasicMcpControllerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-03-09T23:26:51" hostname="NHY9M72K9J" time="0.029">
+  <properties/>
+  <testcase name="should return status()" classname="com.example.mcp.controller.BasicMcpControllerTest" time="0.026"/>
+  <testcase name="should return MCP info()" classname="com.example.mcp.controller.BasicMcpControllerTest" time="0.003"/>
+  <system-out><![CDATA[2026-03-10T08:26:51.528+09:00  INFO 27016 --- [mcp-basic-sample] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.mcp.controller.BasicMcpControllerTest]: BasicMcpControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-03-10T08:26:51.536+09:00  INFO 27016 --- [mcp-basic-sample] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.mcp.BasicMcpApplication for test class com.example.mcp.controller.BasicMcpControllerTest
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

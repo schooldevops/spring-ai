@@ -3,7 +3,8 @@ package com.example.mcp
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringBootApplication class BasicMcpApplication
+@SpringBootApplication
+class BasicMcpApplication
 
 fun main(args: Array<String>) {
     runApplication<BasicMcpApplication>(*args)
