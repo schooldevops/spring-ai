@@ -10,12 +10,15 @@ spring:
     mcp:
       client:
         enabled: true
-        # Example MCP server configuration
-        # my-server:
-        #   transport:
-        #     stdio:
-        #       command: "npx"
-        #       args: ["-y", "@modelcontextprotocol/server-filesystem", "/tmp"]
+        basic-server:
+          transport:
+            stdio:
+              command: "java"
+              args:
+                [
+                  "-jar",
+                  "/Users/1111489/Documents/01.STUDY/sample-test-kido-260121/spring-ai/28.McpServer/sample01-basic-server/build/libs/mcpserver-basic-sample-1.0.0.jar",
+                ]
 server:
   port: 9700
 logging:

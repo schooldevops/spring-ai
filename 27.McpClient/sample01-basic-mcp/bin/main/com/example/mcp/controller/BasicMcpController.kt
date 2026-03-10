@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
  */
 @RestController
 @RequestMapping("/api/mcp")
-class BasicMcpController {
+class BasicMcpController(private val mcpService: com.example.mcp.service.BasicMcpService) {
 
     @GetMapping("/info")
     fun getInfo(): Map<String, Any> {
@@ -31,6 +31,16 @@ class BasicMcpController {
                                 "SSE - Server-Sent Events"
                         )
         )
+    }
+
+    @GetMapping("/tools")
+    fun getTools(): List<String> {
+        return mcpService.getServerTools()
+    }
+
+    @GetMapping("/call-time-tool")
+    fun callTimeTool(@RequestParam(defaultValue = "UTC") timezone: String): Map<String, String> {
+        return mapOf("result" to mcpService.callTimeTool(timezone))
     }
 
     @GetMapping("/status")
