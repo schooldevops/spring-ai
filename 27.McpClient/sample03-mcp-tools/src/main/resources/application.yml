@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: mcp-tools-client-sample
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4o-mini
+    mcp:
+      client:
+        enabled: true
+        local-server:
+          transport:
+            stdio:
+              command: "java"
+              args:
+                [
+                  "-jar",
+                  "/Users/1111489/Documents/01.STUDY/SpringAI/28.McpServer/sample03-mcp-tools/build/libs/mcpserver-streamable-http-sample-1.0.0.jar",
+                ]
+        remote-server:
+          transport:
+            sse:
+              url: "http://localhost:9802/mcp/sse"
+server:
+  port: 9702
+logging:
+  level:
+    org.springframework.ai: DEBUG

@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: mcp-resources-client-sample
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+    mcp:
+      client:
+        enabled: true
+        local-server:
+          transport:
+            stdio:
+              command: "java"
+              args:
+                [
+                  "-jar",
+                  "/Users/1111489/Documents/01.STUDY/SpringAI/28.McpServer/sample02-mcp-resources/build/libs/mcpserver-stdio-sse-sample-1.0.0.jar",
+                ]
+        remote-server:
+          transport:
+            sse:
+              url: "http://localhost:9801/mcp/sse"
+server:
+  port: 9701
+logging:
+  level:
+    org.springframework.ai: DEBUG
