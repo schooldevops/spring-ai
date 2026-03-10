@@ -1,496 +1,231 @@
-# 29. MCP Annotations
+# 29. MCP with Spring AI Annotations
 
 ## 📖 학습 목표
 
-- **MCP Annotations**의 개념과 활용법을 완벽히 이해합니다
-- **Server Annotations**로 선언적 MCP 서버를 구축합니다
-- **Client Annotations**로 MCP 클라이언트를 간편하게 구성합니다
-- **Special Parameters**로 메타데이터와 컨텍스트를 활용합니다
-- **실전 예제**로 통합 시나리오를 학습합니다
+- **Spring AI의 공식 `@Tool` Annotation** 개념과 활용법을 완벽히 이해합니다.
+- 선언적 방식으로 강력하고 간결한 **MCP Tool**을 노출하는 서버를 구축합니다.
+- 기존의 수동(Programmatic) 방식과 어노테이션(Declarative) 방식의 차이를 인지합니다.
+- (참고) Spring AI 1.0.0 M6 이상에서 지원하는 최신 도구 노출 문법을 학습합니다.
 
 ---
 
 ## 🔑 핵심 키워드
 
-1. **@McpTool** - 실행 가능한 함수 제공 (AI가 호출)
-2. **@McpResource** - 데이터 소스 제공 (AI가 읽기)
-3. **@McpPrompt** - 프롬프트 템플릿 제공 (AI가 재사용)
-4. **@McpClient** - MCP 클라이언트 주입 (서버 연결)
-5. **Special Parameters** - ToolContext, Meta 접근
+1. **`@Tool`** - AI 모델이나 MCP Client가 실행할 수 있는 함수 툴로 노출합니다.
+2. **`@ToolParam`** - `@Tool` 내부의 각 파라미터가 어떤 역할을 하는지 AI에게 설명합니다.
+3. **Auto-Configuration** - Spring Context에 등록된 빈(Bean) 내의 `@Tool` 애노테이션을 자동으로 스캔하여 MCP 서버로 발행합니다.
+
+> ⚠️ 주의사항: 기존 인터넷에 떠도는 `@McpTool`, `@McpResource`, `@McpClient` 등의 어노테이션은 공식 Spring AI 프레임워크에 존재하지 않는 환각(Hallucination)입니다. Spring AI는 단일 `@Tool` 어노테이션을 통해 LLM 함수 호출과 MCP 도구 노출을 동시에 통일성 있게 관리합니다.
 
 ---
 
-## 1. MCP Annotations란?
+## 1. Spring AI의 Tool Annotations란?
 
-**MCP Annotations**는 선언적 방식으로 MCP 서버/클라이언트를 구성하는 Spring AI의 강력한 어노테이션 시스템입니다.
+**Tool Annotations**는 선언적 방식으로 MCP 도구를 정의하는 Spring AI의 가장 강력한 기능 중 하나입니다.
 
 ### 왜 Annotations를 사용하나요?
 
-**기존 방식 (Programmatic)**
+**기존 방식 (Programmatic / Functional)**
 ```kotlin
-// 복잡한 설정 코드
-val tool = ToolDefinition.builder()
-    .name("calculate")
-    .description("...")
-    .build()
+// 빈을 수동으로 등록하고 람다나 함수로 매핑하는 코드가 필요했습니다.
+@Bean
+@Description("Calculate the sum of two integers")
+fun calculateSum(): (MathRequest) -> Int {
+    return { req -> req.a + req.b }
+}
 ```
 
 **Annotations 방식 (Declarative)**
 ```kotlin
-// 간단한 어노테이션
-@McpTool(name = "calculate", description = "...")
-fun calculate(a: Int, b: Int): Int
+// Service 클래스 내부의 일반 메서드에 애노테이션만 붙이면 끝납니다.
+import org.springframework.ai.tool.annotation.Tool
+import org.springframework.ai.tool.annotation.ToolParam
+
+@Service
+class MathService {
+
+    @Tool(description = "Calculate the sum of two integers")
+    fun calculateSum(
+        @ToolParam(description = "First integer") a: Int, 
+        @ToolParam(description = "Second integer") b: Int
+    ): Int {
+        return a + b
+    }
+}
 ```
 
 ### 주요 장점
-- ✅ **간결성**: 보일러플레이트 코드 제거
-- ✅ **가독성**: 의도가 명확한 선언적 코드
-- ✅ **유지보수성**: 변경 사항 추적 용이
-- ✅ **자동 등록**: Spring이 자동으로 MCP 서버에 등록
+- ✅ **간결성**: 레코드(Record) 클래스나 불필요한 DTO 래퍼 클래스를 만들 필요가 없습니다.
+- ✅ **이식성**: 여기서 정의한 `@Tool`은 MCP 서버로도 노출되며, 애플리케이션 내부 LLM(ChatClient)에서도 그대로 재사용됩니다.
+- ✅ **가독성**: 실제 비즈니스 로직과 Tool 메타데이터가 한 공간에 명확히 선언됩니다.
+- ✅ **자동 분석**: Spring AI가 리플렉션을 사용해 파라미터 타입을 JSON Schema로 자동 변환하여 MCP 스펙에 맞게 등록합니다.
 
 ---
 
-## 2. 샘플 구성
+## 2. Server Annotations 상세: `@Tool` (실행 가능한 함수)
 
-| Sample | Port | 주제 | 핵심 내용 |
-|--------|------|------|-----------|
-| **01** | 9900 | Server Annotations | @McpTool, @McpResource, @McpPrompt |
-| **02** | 9901 | Client Annotations | @McpClient 활용 |
-| **03** | 9902 | Special Parameters | ToolContext, Meta 접근 |
-| **04** | 9903 | Complete Examples | 통합 실전 예제 |
+AI나 외부 환경에서 필요할 때 호출할 수 있는 도구를 정의합니다.
 
----
-
-## 3. Server Annotations 상세
-
-### 3.1 @McpTool - 실행 가능한 함수
-
-AI가 필요시 호출할 수 있는 함수를 정의합니다.
+### 2.1 기본 사용 예제
 
 ```kotlin
-@McpTool(
-    name = "calculate",
-    description = "Perform arithmetic operations: add, subtract, multiply, divide"
-)
-fun calculate(a: Int, b: Int, operation: String): Int {
-    return when (operation.lowercase()) {
-        "add" -> a + b
-        "subtract" -> a - b
-        "multiply" -> a * b
-        "divide" -> if (b != 0) a / b else 0
-        else -> throw IllegalArgumentException("Unknown operation")
-    }
-}
+import org.springframework.stereotype.Service
+import org.springframework.ai.tool.annotation.Tool
+import org.springframework.ai.tool.annotation.ToolParam
 
-@McpTool(
-    name = "convertCase",
-    description = "Convert text case: upper, lower, title"
-)
-fun convertCase(text: String, toCase: String): String {
-    return when (toCase.lowercase()) {
-        "upper" -> text.uppercase()
-        "lower" -> text.lowercase()
-        "title" -> text.split(" ").joinToString(" ") { it.capitalize() }
-        else -> text
+@Service // Spring Bean으로 등록되어야 합니다.
+class TextProcessingService {
+
+    @Tool(description = "Convert text case: upper, lower, title")
+    fun convertCase(
+        @ToolParam(description = "The original text to convert") text: String, 
+        @ToolParam(description = "Target case format. Must be upper, lower, or title") toCase: String
+    ): String {
+        return when (toCase.lowercase()) {
+            "upper" -> text.uppercase()
+            "lower" -> text.lowercase()
+            "title" -> text.split(" ").joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } }
+            else -> text
+        }
     }
 }
 ```
 
 **사용 시나리오:**
 - 계산 함수 (수학, 통계)
-- 변환 함수 (단위, 형식, 인코딩)
-- 검증 함수 (유효성, 규칙)
-- 외부 API 호출
+- 데이터 변환 함수 (문자열, 형식, 인코딩)
+- 외부 API 연동 기능 (주식 가격 조회, 일기예보 조회)
+- 사내 DB 데이터 읽기 (읽기/쓰기 권한에 유의)
 
----
-
-### 3.2 @McpResource - 데이터 소스
-
-AI가 읽을 수 있는 데이터를 제공합니다.
+### 2.2 Nullable과 파라미터 제어
 
 ```kotlin
-@McpResource(
-    uri = "config://system",
-    name = "System Configuration",
-    description = "Application system settings"
-)
-fun getSystemInfo(): Map<String, Any> {
-    return mapOf(
-        "version" to "1.0.0",
-        "environment" to "production",
-        "maxConnections" to 100,
-        "timeout" to 30
-    )
-}
-
-@McpResource(
-    uri = "user://{userId}",
-    name = "User Profile",
-    description = "User profile information"
-)
-fun getUserProfile(userId: String): Map<String, Any> {
-    return mapOf(
-        "id" to userId,
-        "name" to "User $userId",
-        "role" to "admin",
-        "active" to true
-    )
+@Tool(description = "Update customer information")
+fun updateCustomerInfo(
+    @ToolParam(description = "Customer ID") id: Long,
+    @ToolParam(description = "New customer name") name: String,
+    @ToolParam(description = "Optional email address", required = false) email: String?
+): String {
+    // ... logic ...
+    return "Success"
 }
 ```
 
-**사용 시나리오:**
-- 시스템 설정 조회
-- 사용자 정보 제공
-- 데이터베이스 읽기
-- 파일 시스템 접근
-- 외부 API 데이터
+### 2.3 Spring Boot + MCP의 자동 래핑 메커니즘
+
+Spring 애플리케이션에 `spring-ai-mcp-spring-boot-starter`를 등록하면, 다음과 같은 일이 일어납니다.
+
+1. **스캔**: Spring Context에 올라온 모든 `@Service`, `@Component` 안의 `@Tool` 어노테이션을 찾습니다.
+2. **JSON Schema 생성**: 자바 타입을 읽고 MCP 호환 JSON 스키마로 변환합니다. `email`처럼 `required=false`를 주면 자동으로 Optional 스펙이 됩니다.
+3. **McpSyncToolCallback (RPC 변환)**: 스캔한 메서드를 MCP 프로토콜이 전송할 수 있는 콜백 래퍼로 캡슐화합니다.
+4. **Tool Registry 등록**: 클라이언트(Claude Desktop 등)에서 연결요청이 들어오면 노출할 목록에 즉시 올립니다.
 
 ---
 
-### 3.3 @McpPrompt - 프롬프트 템플릿
+## 3. (정보) Resource와 Prompt는 어떻게 구현하나요?
 
-AI가 재사용할 수 있는 템플릿을 제공합니다.
+과거 할루시네이션(가상의 거짓 정보) 문서는 `@McpResource` 같은 어노테이션이 있다고 설명했지만, **Spring AI는 현재 이러한 어노테이션을 제공하지 않습니다.** 
+(MCP에서 도구(Tool) 호출이 가장 핵심 메커니즘이기 때문이며, 리소스/프롬프트 기능은 자바 빌더 코드로 구성합니다.)
 
-```kotlin
-@McpPrompt(
-    name = "greeting",
-    description = "Welcome greeting template"
-)
-fun greetingPrompt(name: String): String {
-    return "Hello {name}, welcome to our service!"
-}
-
-@McpPrompt(
-    name = "notification",
-    description = "Notification message template"
-)
-fun notificationPrompt(): String {
-    return "Hi {name}, you have {count} new messages."
-}
-
-// 템플릿 채우기 헬퍼 함수
-fun fillTemplate(template: String, params: Map<String, String>): String {
-    var result = template
-    params.forEach { (key, value) ->
-        result = result.replace("{$key}", value)
-    }
-    return result
-}
-```
-
-**사용 시나리오:**
-- 이메일 템플릿
-- 알림 메시지
-- 응답 패턴
-- 다국어 메시지
-- 일관된 포맷
-
----
-
-## 4. Client Annotations
-
-### 4.1 @McpClient - MCP 서버 연결
+### 3.1 Resource 등록 (기존 방식 유지)
+리소스 등록은 어노테이션이 아닌 빈 등록을 통해 수동으로 진행합니다.
 
 ```kotlin
+import io.modelcontextprotocol.server.McpServerFeatures.SyncResourceRegistration
+import io.modelcontextprotocol.spec.McpSchema.Resource
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+
 @Configuration
-class McpClientConfig {
+class ResourceConfig {
     
     @Bean
-    @McpClient("weatherServer")
-    fun weatherClient(): McpSyncClient {
-        // 자동으로 MCP 서버에 연결
-        return McpSyncClient.builder()
-            .transport(StdioTransport("weather-server"))
-            .build()
-    }
-}
-
-@Service
-class WeatherService(
-    @McpClient("weatherServer") 
-    private val mcpClient: McpSyncClient
-) {
-    fun getWeather(city: String): String {
-        return mcpClient.callTool("getWeather", mapOf("city" to city))
-    }
-}
-```
-
-**특징:**
-- 자동 연결 관리
-- 의존성 주입
-- 타입 안전성
-- 리소스 정리
-
----
-
-## 5. Special Parameters
-
-### 5.1 ToolContext 접근
-
-```kotlin
-@McpTool(name = "contextAware")
-fun contextAwareTool(
-    param: String,
-    @ToolContext context: Map<String, Any>
-): String {
-    val userId = context["userId"] as? String
-    val sessionId = context["sessionId"] as? String
-    
-    return "Processing $param for user $userId in session $sessionId"
-}
-```
-
-### 5.2 Meta 정보 접근
-
-```kotlin
-@McpTool(name = "metaAware")
-fun metaAwareTool(
-    param: String,
-    @Meta("requestId") requestId: String?,
-    @Meta("timestamp") timestamp: Long?
-): String {
-    return "Request $requestId at $timestamp: $param"
-}
-```
-
-**활용:**
-- 사용자 컨텍스트
-- 세션 정보
-- 요청 메타데이터
-- 추적 및 로깅
-
----
-
-## 6. 실전 예제
-
-### 6.1 계산기 서비스
-
-```kotlin
-@Service
-class CalculatorService {
-    
-    @McpTool(
-        name = "calculate",
-        description = "Perform arithmetic: add, subtract, multiply, divide"
-    )
-    fun calculate(a: Int, b: Int, operation: String): Int {
-        return when (operation) {
-            "add" -> a + b
-            "subtract" -> a - b
-            "multiply" -> a * b
-            "divide" -> if (b != 0) a / b else 0
-            else -> throw IllegalArgumentException("Unknown: $operation")
+    fun systemConfigResource(): SyncResourceRegistration {
+        val resource = Resource("config://system", "System Configuration", "application/json", "System application settings", null)
+        return SyncResourceRegistration(resource) { _ -> 
+            // Return content implementation
+            io.modelcontextprotocol.spec.McpSchema.ReadResourceResult(
+                listOf(io.modelcontextprotocol.spec.McpSchema.TextResourceContents(
+                    "config://system", "application/json", "{\"version\":\"1.0.0\"}"
+                ))
+            )
         }
     }
 }
 ```
 
-**AI 사용 예:**
-```
-User: "15 더하기 27은?"
-AI: [calculate(15, 27, "add") 호출]
-Tool: 42
-AI: "42입니다"
-```
-
-### 6.2 사용자 정보 서비스
+### 3.2 Prompt 등록 (기존 방식 유지)
+프롬프트 또한 빌더 구조를 따릅니다.
 
 ```kotlin
-@Service
-class UserService {
+import io.modelcontextprotocol.server.McpServerFeatures.SyncPromptRegistration
+import io.modelcontextprotocol.spec.McpSchema.Prompt
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+
+@Configuration
+class PromptConfig {
     
-    @McpResource(
-        uri = "user://{userId}",
-        name = "User Profile"
-    )
-    fun getUserProfile(userId: String): Map<String, Any> {
-        return mapOf(
-            "id" to userId,
-            "name" to "User $userId",
-            "role" to "admin"
-        )
+    @Bean
+    fun greetingPrompt(): SyncPromptRegistration {
+        val prompt = Prompt("greeting", "Welcome greeting template", emptyList())
+        return SyncPromptRegistration(prompt) { _ ->
+            // Return prompt building implementation
+            io.modelcontextprotocol.spec.McpSchema.GetPromptResult(
+                "greeting",
+                listOf(io.modelcontextprotocol.spec.McpSchema.PromptMessage(
+                    io.modelcontextprotocol.spec.McpSchema.Role.USER,
+                    io.modelcontextprotocol.spec.McpSchema.TextContent("Hello, how can I help you?")
+                ))
+            )
+        }
     }
 }
 ```
 
-**AI 사용 예:**
-```
-User: "사용자 123의 정보는?"
-AI: [getUserProfile("123") 호출]
-Resource: {id: "123", name: "User 123", role: "admin"}
-AI: "사용자 123은 관리자 역할입니다"
-```
-
 ---
 
-## 7. 아키텍처
-
-```
-┌─────────────────────────────────────────┐
-│           AI Model (ChatGPT)            │
-└──────────────┬──────────────────────────┘
-               │
-               ▼
-┌─────────────────────────────────────────┐
-│         MCP Client (Spring AI)          │
-│  - @McpClient                           │
-│  - Auto-configuration                   │
-└──────────────┬──────────────────────────┘
-               │
-               ▼
-┌─────────────────────────────────────────┐
-│         MCP Server (Your App)           │
-│  - @McpTool                             │
-│  - @McpResource                         │
-│  - @McpPrompt                           │
-└─────────────────────────────────────────┘
-```
-
----
-
-## 8. 비교표
-
-### Annotation 비교
-
-| Annotation | 목적 | 반환 타입 | AI 동작 |
-|------------|------|-----------|---------|
-| @McpTool | 함수 실행 | Any | 호출 및 결과 사용 |
-| @McpResource | 데이터 읽기 | Any | 읽기 전용 접근 |
-| @McpPrompt | 템플릿 제공 | String | 템플릿 재사용 |
-
-### 사용 시나리오 비교
-
-| 시나리오 | 적합한 Annotation | 예시 |
-|----------|-------------------|------|
-| 계산 수행 | @McpTool | calculate(10, 5, "add") |
-| 설정 조회 | @McpResource | getSystemConfig() |
-| 메시지 생성 | @McpPrompt | greetingTemplate() |
-
----
-
-## 9. 실행 방법
-
-### Sample 01: Server Annotations
-```bash
-cd sample01-server-annotations
-./gradlew bootRun
-
-# 테스트
-curl -X POST http://localhost:9900/api/mcp/tool/calculate \
-  -H "Content-Type: application/json" \
-  -d '{"a": 15, "b": 3, "operation": "multiply"}'
-```
-
-### Sample 02: Client Annotations
-```bash
-cd sample02-client-annotations
-./gradlew bootRun
-```
-
-### Sample 03: Special Parameters
-```bash
-cd sample03-special-parameters
-./gradlew bootRun
-```
-
-### Sample 04: Complete Examples
-```bash
-cd sample04-complete-examples
-./gradlew bootRun
-```
-
----
-
-## 10. 모범 사례
+## 4. 모범 사례
 
 ### ✅ DO
 
 ```kotlin
-// 명확한 이름과 설명
-@McpTool(
+// 명확한 이름과 파라미터 설명 추가!
+@Tool(
     name = "calculateSum",
     description = "Calculate the sum of two integers"
 )
-fun calculateSum(a: Int, b: Int): Int
-
-// 타입 안전성
-@McpResource(uri = "user://{id}")
-fun getUser(id: String): UserProfile
-
-// 에러 처리
-@McpTool(name = "divide")
-fun divide(a: Int, b: Int): Int {
-    if (b == 0) throw IllegalArgumentException("Division by zero")
-    return a / b
-}
+fun calculateSum(
+    @ToolParam(description = "first number") a: Int, 
+    @ToolParam(description = "second number to add") b: Int
+): Int
 ```
 
 ### ❌ DON'T
 
 ```kotlin
-// 모호한 이름
-@McpTool(name = "do")
+// ❌ AI가 이게 무슨 용도인지 모호함
+@Tool(name = "do")
 fun doSomething(x: Any): Any
 
-// 부작용 있는 Resource
-@McpResource(uri = "data")
-fun getData(): String {
-    database.delete() // ❌ Resource는 읽기 전용
-    return "data"
-}
-
-// 에러 처리 없음
-@McpTool(name = "divide")
-fun divide(a: Int, b: Int) = a / b // ❌ b=0 처리 없음
+// ❌ 파라미터 설명이 전혀 없음
+@Tool(description = "Divide numbers")
+fun divide(a: Int, b: Int) = a / b // 만약 b=0이면 크래시 발생 가능, 검증이 필요
 ```
 
 ---
 
-## 11. 문제 해결
+## 5. 실행 및 테스트 (참고)
 
-### Q: Annotation이 인식되지 않아요
-```kotlin
-// Component Scan 확인
-@SpringBootApplication
-@ComponentScan(basePackages = ["com.example.annotations"])
-class Application
+Spring AI MCP 프로젝트에 구성한 Application을 실행하고 어노테이션 스캔이 원활한지 확인합니다.
+
+```bash
+# 로컬에서 스프링 부트 애플리케이션 구동
+./gradlew bootRun
 ```
 
-### Q: Tool이 호출되지 않아요
-```kotlin
-// MCP Server 활성화 확인
-spring:
-  ai:
-    mcp:
-      server:
-        enabled: true
-```
-
-### Q: 파라미터가 전달되지 않아요
-```kotlin
-// 파라미터 이름 명시
-@McpTool(name = "calculate")
-fun calculate(
-    @Param("a") first: Int,
-    @Param("b") second: Int
-): Int
-```
-
----
-
-## 12. 다음 단계
-
-1. ✅ **Sample 01** - Server Annotations 기본
-2. ✅ **Sample 02** - Client Annotations 연동
-3. ✅ **Sample 03** - Special Parameters 활용
-4. ✅ **Sample 04** - Complete Examples 통합
-
----
-
-**시작하기**: [Sample 01: Server Annotations](./sample01-server-annotations/)
+MCP 클라이언트(예: 이전 샘플 프로젝트의 클라이언트 또는 Claude Desktop 등)에서 연결 후 자동으로 발견되는 도구 목록에 작성하신 `@Tool` 들이 뜨는지 확인하시면 됩니다.
 
 **관련 문서**:
-- [MCP Protocol](https://modelcontextprotocol.io)
-- [Spring AI Reference](https://docs.spring.io/spring-ai/reference/)
-- [MCP Annotations Guide](https://docs.spring.io/spring-ai/reference/api/mcp/mcp-annotations-overview.html)
+- [MCP Protocol 스펙 가이드](https://modelcontextprotocol.io)
+- [Spring AI 공식 Tools Reference](https://docs.spring.io/spring-ai/reference/api/tools.html)

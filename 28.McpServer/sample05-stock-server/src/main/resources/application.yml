@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: mcp-stock-server
+  ai:
+    mcp:
+      server:
+        name: stock-tools
